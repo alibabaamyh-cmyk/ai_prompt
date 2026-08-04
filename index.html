@@ -1,16 +1,1378 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI Prompt 集合平台</title>
-  <script>
-    // 重定向到 web 目錄
-    window.location.href = '/web/index.html';
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿里巴巴商家 AI Prompt 生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FF6600 0%, #FF8833 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF6600 0%, #FF8833 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-button:hover {
+            color: #FF6600;
+            background: white;
+        }
+
+        .tab-button.active {
+            color: #FF6600;
+            border-bottom-color: #FF6600;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111827;
+            font-size: 14px;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="url"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FF6600;
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6600 0%, #FF8833 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 102, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-copy {
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn-copy:hover {
+            background: #059669;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .prompt-output {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .prompt-output.has-content {
+            border-color: #FF6600;
+            background: #fff5f0;
+        }
+
+        .prompt-output pre {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #111827;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .copy-button-absolute {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .prompt-card {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .prompt-card:hover {
+            border-color: #FF6600;
+            box-shadow: 0 4px 12px rgba(255, 102, 0, 0.1);
+        }
+
+        .prompt-card h3 {
+            font-size: 16px;
+            color: #FF6600;
+            margin-bottom: 12px;
+        }
+
+        .prompt-card .prompt-text {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            border-left: 3px solid #FF6600;
+        }
+
+        .prompt-card .remark {
+            background: #fef3c7;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #92400e;
+            border-left: 3px solid #f59e0b;
+        }
+
+        .add-field-btn {
+            background: #dbeafe;
+            color: #0284c7;
+            padding: 8px 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .add-field-btn:hover {
+            background: #bfdbfe;
+        }
+
+        .field-list {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .field-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .field-item:last-child {
+            border-bottom: none;
+        }
+
+        .field-item input {
+            flex: 1;
+            margin-right: 8px;
+            padding: 6px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .remove-btn {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+        }
+
+        .remove-btn:hover {
+            background: #fecaca;
+        }
+
+        .toggle-switch {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .toggle-switch input[type="radio"] {
+            margin-right: 6px;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #FF6600;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #0c4a6e;
+            margin-bottom: 20px;
+        }
+
+        .dimension-box {
+            background: #f0f7ff;
+            border: 2px solid #FF6600;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dimension-box h4 {
+            color: #FF6600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dimension-item {
+            margin-bottom: 16px;
+        }
+
+        .dimension-item strong {
+            color: #FF6600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .dimension-item-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-left: 24px;
+        }
+
+        .dimension-option {
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #111827;
+        }
+
+        .example-title {
+            background: #fff7e6;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+            border-left: 3px solid #FF6600;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-button {
+                font-size: 12px;
+                padding: 12px 8px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <p>正在加載 AI Prompt 平台...</p>
-  <p><a href="web/index.html">如果頁面沒有自動跳轉，請點擊這裡</a></p>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 阿里巴巴商家 AI Prompt 生成器</h1>
+            <p>快速生成結構化的 AI Prompt，提升商詳頁質量與運營效率</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab(0)">📋 公司資料</button>
+            <button class="tab-button" onclick="switchTab(1)">🛍️ 商品資料</button>
+            <button class="tab-button" onclick="switchTab(2)">🎨 生圖 Prompt</button>
+            <button class="tab-button" onclick="switchTab(3)">🏪 商家情境</button>
+        </div>
+
+        <!-- Tab 1: Company Data -->
+        <div class="tab-content active" id="tab-0">
+            <div class="info-box">
+                💡 填寫公司資料，AI 將生成完整的店鋪介紹 Prompt。所有信息將被用於打造專業的品牌形象。
+            </div>
+
+            <div class="section-title">基本資訊</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>公司名稱（英文）<span class="required">*</span></label>
+                    <input type="text" id="companyName" placeholder="例：AMYH Trading Co., Ltd." required>
+                    <div class="hint">請使用英文，便於海外買家識別</div>
+                </div>
+                <div class="form-group">
+                    <label>官方網站 URL</label>
+                    <input type="url" id="website" placeholder="https://www.yourbrand.com">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>成立年份/規模</label>
+                    <input type="text" id="foundingYear" placeholder="例：2015年成立，50人規模">
+                </div>
+                <div class="form-group">
+                    <label>主營產品分類<span class="required">*</span></label>
+                    <div id="productCategories" class="field-list">
+                        <div class="field-item">
+                            <input type="text" placeholder="例：廚房用品" class="category-input">
+                            <button class="btn remove-btn" onclick="removeField(this)">移除</button>
+                        </div>
+                    </div>
+                    <button class="btn add-field-btn" onclick="addField('productCategories', '例：家居用品')">+ 添加分類</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>產品關鍵詞</label>
+                <input type="text" id="keywords" placeholder="例：廚具、烹飪工具、高溫耐用">
+                <div class="hint">多個詞用逗號分隔</div>
+            </div>
+
+            <div class="form-group">
+                <label>目標市場<span class="required">*</span></label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="market_na" class="market-checkbox">
+                        <label for="market_na">北美</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="market_eu" class="market-checkbox">
+                        <label for="market_eu">歐洲</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="market_sea" class="market-checkbox">
+                        <label for="market_sea">東南亞</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="market_me" class="market-checkbox">
+                        <label for="market_me">中東</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="market_la" class="market-checkbox">
+                        <label for="market_la">拉丁美洲</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="market_africa" class="market-checkbox">
+                        <label for="market_africa">非洲</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>核心優勢</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="adv_price" class="advantage-checkbox">
+                        <label for="adv_price">價格有競爭力</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="adv_quality" class="advantage-checkbox">
+                        <label for="adv_quality">品質保證</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="adv_custom" class="advantage-checkbox">
+                        <label for="adv_custom">可定制化</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="adv_delivery" class="advantage-checkbox">
+                        <label for="adv_delivery">交貨快速</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="adv_rd" class="advantage-checkbox">
+                        <label for="adv_rd">R&D 能力強</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="adv_cert" class="advantage-checkbox">
+                        <label for="adv_cert">國際認證齊全</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>質量認證</label>
+                <input type="text" id="certifications" placeholder="例：ISO9001、FDA、CE">
+                <div class="hint">多個認證用逗號分隔</div>
+            </div>
+
+            <div class="form-group">
+                <label>定制服務</label>
+                <div class="toggle-switch">
+                    <label><input type="radio" name="customization" value="yes"> 支持</label>
+                    <label><input type="radio" name="customization" value="no"> 不支持</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>樣品服務</label>
+                <div class="toggle-switch">
+                    <label><input type="radio" name="samples" value="yes"> 支持</label>
+                    <label><input type="radio" name="samples" value="no"> 不支持</label>
+                </div>
+            </div>
+
+            <div class="section-title">定位詳情</div>
+
+            <div class="form-group">
+                <label>身份定位<span class="required">*</span></label>
+                <select id="positioning" required>
+                    <option value="">-- 請選擇 --</option>
+                    <option value="factory">工廠</option>
+                    <option value="trader">貿易商</option>
+                    <option value="integration">工廠+貿易一體</option>
+                    <option value="brand">品牌方</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>定價策略</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="price_competitive" class="pricing-checkbox">
+                        <label for="price_competitive">高性價比</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="price_premium" class="pricing-checkbox">
+                        <label for="price_premium">高端定制</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>生產流程說明</label>
+                <textarea id="production" placeholder="詳述您的生產流程、質量控制、技術優勢等..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>R&D 技術能力</label>
+                <textarea id="rd" placeholder="描述您的研發團隊、創新能力、專利等..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>展會經驗</label>
+                <input type="text" id="exhibitions" placeholder="例：2023 廣交會、2024 德國工業展等">
+            </div>
+
+            <div class="form-group">
+                <label>團隊介紹</label>
+                <textarea id="team" placeholder="介紹您的管理層、核心人才等..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>訂單靈活性/MOQ</label>
+                <textarea id="moq" placeholder="例：MOQ 100 件起，接受小批量定制訂單"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>目標買家描述</label>
+                <textarea id="targetBuyer" placeholder="描述您的理想客戶，如零售商、大B客戶等..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateCompanyPrompt()">✨ 產出店鋪介紹 Prompt</button>
+            </div>
+
+            <div id="companyPromptOutput" class="prompt-output">
+                <div class="copy-button-absolute">
+                    <button class="btn btn-copy" onclick="copyToClipboard('companyPromptOutput')">📋 複製</button>
+                </div>
+                <pre id="companyPromptText">點擊「產出 Prompt」按鈕後，生成的內容將顯示在這裡...</pre>
+            </div>
+        </div>
+
+        <!-- Tab 2: Product Data -->
+        <div class="tab-content" id="tab-1">
+            <div class="info-box">
+                💡 填寫商品資料，AI 將生成結構化的商詳頁 Prompt。主軸：買方痛點 → 產品賣點 → 商家實力 → FAQ
+            </div>
+
+            <div class="section-title">商品基本資訊</div>
+
+            <div class="form-group">
+                <label>產品名稱<span class="required">*</span></label>
+                <input type="text" id="productName" placeholder="例：鑲鑽棉T恤 / Custom Rhinestone T-Shirt" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>原產地（請提供英文）</label>
+                    <input type="text" id="origin" placeholder="例：Taiwan">
+                </div>
+                <div class="form-group">
+                    <label>品牌</label>
+                    <input type="text" id="productBrand" placeholder="例：我的品牌 / MyBrand">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>產品描述<span class="required">*</span></label>
+                <textarea id="productDescription" placeholder="描述材質、功能、特色、適用場景等... (最多 20,000 字)" required></textarea>
+                <div class="hint">產品描述將用於生成 AI Prompt，請盡量詳細</div>
+            </div>
+
+            <div class="section-title">拓品維度參考</div>
+            <div class="info-box">
+                為了讓 AI 生成更精準的 Prompt，請選擇您的產業類型，下方將顯示對應的拓品維度建議。
+            </div>
+
+            <div class="form-group">
+                <label>產業類型</label>
+                <select id="industryType" onchange="updateIndustryDimensions()">
+                    <option value="">-- 請選擇產業 --</option>
+                    <option value="apparel">紡織服裝</option>
+                    <option value="food">食品 / 飲品</option>
+                    <option value="appliance">家電 / 廚具</option>
+                    <option value="beauty">美妝 / 個護</option>
+                    <option value="hardware">五金 / 工具</option>
+                    <option value="furniture">家居 / 家具</option>
+                    <option value="electronics">電子 / 數碼</option>
+                    <option value="sports">運動 / 健身</option>
+                    <option value="other">其他</option>
+                </select>
+            </div>
+
+            <div id="dimensionBox" style="display:none;">
+                <!-- Dimensions will be inserted here by JavaScript -->
+            </div>
+
+            <div class="form-group">
+                <label>主要應用場景或行業用途</label>
+                <textarea id="useCases" placeholder="例：工業廢水處理、家用飲用水淨化、空氣清淨機過濾、餐飲業脫色..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>規格 / 功效 / 材質的差異性重點</label>
+                <textarea id="specs" placeholder="例：不同碱值（800/1000/1200）、不同粒徑（4x8目/8x30目）、木質/椰殼/煤質；或不同濃度、成分..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>目標客戶類型（可多選）</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="buyer-checkbox" value="批發商">
+                        <label>批發商 / 進口商</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="buyer-checkbox" value="品牌商">
+                        <label>品牌商 / OEM 貼牌</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="buyer-checkbox" value="工廠">
+                        <label>工廠 / 製造業</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="buyer-checkbox" value="零售商">
+                        <label>零售商 / 電商賣家</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="buyer-checkbox" value="設計師">
+                        <label>設計師 / 工作室</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="buyer-checkbox" value="其他">
+                        <label>其他</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>特殊認證或出口市場要求</label>
+                <input type="text" id="specialCerts" placeholder="例：NSF（美國飲水認證）、FDA、清真 Halal、有機、CE、REACH...">
+                <div class="hint">多個認證用逗號分隔</div>
+            </div>
+
+            <div class="form-group">
+                <label>其它拓品角度（選填）</label>
+                <textarea id="otherDimensions" placeholder="例：小批量打樣低門檻、不同 MOQ 梯度吸引不同規模買家、快速交期、OEM/ODM 定服務..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateProductPrompt()">✨ 產出商詳頁 Prompt</button>
+            </div>
+
+            <div id="productPromptOutput" class="prompt-output">
+                <div class="copy-button-absolute">
+                    <button class="btn btn-copy" onclick="copyToClipboard('productPromptOutput')">📋 複製</button>
+                </div>
+                <pre id="productPromptText">點擊「產出商詳頁 Prompt」按鈕後，生成的內容將顯示在這裡...</pre>
+            </div>
+        </div>
+
+        <!-- Tab 3: Image Prompts -->
+        <div class="tab-content" id="tab-2">
+            <div class="info-box">
+                💡 使用以下 Prompt 生成專業的商品圖片。每種類型都有特定的應用場景，選擇適合您的商品風格即可。
+            </div>
+
+            <div class="section-title">生圖 Prompt 模板</div>
+
+            <!-- Type 1: Collection -->
+            <div class="prompt-card">
+                <h3>1️⃣ 集合式排列</h3>
+                <div class="prompt-text">請將我提供給你的商品圖片，進行整齊排列，風格統一、專業呈現。圖片格式：900x900px</div>
+                <div class="remark">📌 <strong>備註：</strong>請記得附上商品圖片，圖片格式需為 900x900px</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供給你的商品圖片，進行整齊排列，風格統一、專業呈現。圖片格式：900x900px')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 2: Application Scene -->
+            <div class="prompt-card">
+                <h3>2️⃣ 應用場景</h3>
+                <div class="prompt-text">請將我提供給你的商品圖片，創造一個【真實使用情境】，商品擺在合理位置讓人知道如何應用，背景自然和諧。圖片格式：900x900px</div>
+                <div class="remark">📌 <strong>備註：</strong>請附上商品圖片，在【】內描述您需要的場景（如：廚房烹飪、辦公桌面、家庭客廳等）</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供給你的商品圖片，創造一個【真實使用情境】，商品擺在合理位置讓人知道如何應用，背景自然和諧。圖片格式：900x900px')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 3: Certification Highlights -->
+            <div class="prompt-card">
+                <h3>3️⃣ 認證賣點展示</h3>
+                <div class="prompt-text">請將我提供給你的商品圖片和認證資料進行專業排版，重點突出認證標誌。圖片格式：900x900px，文字清晰可讀</div>
+                <div class="remark">📌 <strong>備註：</strong>請提供商品圖片和認證資料（如：ISO、FDA、CE 認證等），AI 將進行美化排版</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供給你的商品圖片和認證資料進行專業排版，重點突出認證標誌。圖片格式：900x900px，文字清晰可讀')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 4: Feature Highlights -->
+            <div class="prompt-card">
+                <h3>4️⃣ 賣點集合</h3>
+                <div class="prompt-text">請將我提供給你的商品圖片，以及產品賣點【】進行吸晴排版。圖片格式：900x900px，圖片文字請以英文呈現，設計要高端專業</div>
+                <div class="remark">📌 <strong>備註：</strong>在【】內填入主要賣點（如：Fast Delivery、High Quality、Customizable 等），確保視覺衝擊力強</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供給你的商品圖片，以及產品賣點進行吸晴排版。圖片格式：900x900px，圖片文字請以英文呈現，設計要高端專業')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 5: Before & After -->
+            <div class="prompt-card">
+                <h3>5️⃣ 效果對比</h3>
+                <div class="prompt-text">我附上三張照片：第一張是 before（使用前），第二張是 after（使用後），第三張是產品照片，請你進行專業對比排版。圖片格式：900x900px，圖片中若有文字請以英文呈現</div>
+                <div class="remark">📌 <strong>備註：</strong>依序提供 before、after、產品圖片，AI 將自動進行對比設計排版</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我附上三張照片：第一張是 before（使用前），第二張是 after（使用後），第三張是產品照片，請你進行專業對比排版。圖片格式：900x900px，圖片中若有文字請以英文呈現')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 6: Factory Reality -->
+            <div class="prompt-card">
+                <h3>6️⃣ 工廠實景展示</h3>
+                <div class="prompt-text">請將我提供的工廠生產線照片進行專業排版，展現製造過程的專業性和規模。圖片格式：900x900px，可配文字「Professional Manufacturing」</div>
+                <div class="remark">📌 <strong>備註：</strong>提供工廠生產線、測試設備、質檢場景等照片，突出企業實力和製造力</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供的工廠生產線照片進行專業排版，展現製造過程的專業性和規模。圖片格式：900x900px，可配文字「Professional Manufacturing」')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 7: Brand Story -->
+            <div class="prompt-card">
+                <h3>7️⃣ 品牌故事/里程碑</h3>
+                <div class="prompt-text">請根據我提供的公司發展時間線和照片，設計一個時間軸或里程碑視覺展示。圖片格式：900x900px，顯示企業成長歷程</div>
+                <div class="remark">📌 <strong>備註：</strong>提供公司成立年份、重要事件、獲獎、合作夥伴等信息和相關照片</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請根據我提供的公司發展時間線和照片，設計一個時間軸或里程碑視覺展示。圖片格式：900x900px，顯示企業成長歷程')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 8: Product Size Comparison -->
+            <div class="prompt-card">
+                <h3>8️⃣ 尺寸對比/規格展示</h3>
+                <div class="prompt-text">請將多個規格的產品照片進行排版對比展示，清晰標註尺寸和規格參數。圖片格式：900x900px，可用表格或並排形式呈現</div>
+                <div class="remark">📌 <strong>備註：</strong>提供不同尺寸/規格的產品圖片，並標註尺寸參數（如：S/M/L 或 800ml/1200ml 等）</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將多個規格的產品照片進行排版對比展示，清晰標註尺寸和規格參數。圖片格式：900x900px，可用表格或並排形式呈現')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 9: Texture & Material Detail -->
+            <div class="prompt-card">
+                <h3>9️⃣ 材質細節展示</h3>
+                <div class="prompt-text">請將我提供的產品細節照片（紋理、材質、工藝細節等）進行放大特寫展示，凸顯產品品質和手工藝。圖片格式：900x900px</div>
+                <div class="remark">📌 <strong>備註：</strong>提供產品紋理、材質、工藝細節的特寫照片，可添加文字說明材料和工藝優勢</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供的產品細節照片（紋理、材質、工藝細節等）進行放大特寫展示，凸顯產品品質和手工藝。圖片格式：900x900px')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Type 10: Customer Testimonial -->
+            <div class="prompt-card">
+                <h3>🔟 客戶推薦/案例展示</h3>
+                <div class="prompt-text">請將我提供的客戶案例照片、評價或使用效果進行拼貼展示，強調真實客戶反饋和成功案例。圖片格式：900x900px，可加入評分或評語</div>
+                <div class="remark">📌 <strong>備註：</strong>提供客戶使用照片、評價截圖或案例介紹，突出產品的實際應用效果和用戶滿意度</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('請將我提供的客戶案例照片、評價或使用效果進行拼貼展示，強調真實客戶反饋和成功案例。圖片格式：900x900px，可加入評分或評語')">📋 複製 Prompt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Business Scenarios -->
+        <div class="tab-content" id="tab-3">
+            <div class="info-box">
+                💡 根據不同的商家情況，AI 提供對應的 Prompt。選擇最符合您現狀的場景，快速獲得定制化的處理建議。
+            </div>
+
+            <div class="section-title">選擇您的商家場景</div>
+
+            <!-- Scenario 1: No Website, Has Catalog -->
+            <div class="prompt-card">
+                <h3>情境 1️⃣：沒有官網，但有產品型錄</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">您已有產品型錄或宣傳冊，需要整理成結構化的產品資料表</p>
+                <div class="prompt-text">我提供給你一個產品型錄 PDF 檔案，請你協助歸納整理出一個完整的產品資料表，以中文、英文方式呈現。
+產品資料表應包含：產品分類、產品名稱(英文請在 128 個字元內，要能吸引海外買家)、產品關鍵詞、產品規格、產品描述(簡潔有力)。
+請確保數據準確、分類清晰、便於後續在阿里巴巴上傳。</div>
+                <div class="remark">📌 <strong>備註：</strong>請上傳您的產品型錄 PDF 檔案，格式需清晰可識別</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我提供給你一個產品型錄 PDF 檔案，請你協助歸納整理出一個完整的產品資料表，以中文、英文方式呈現。產品資料表應包含：產品分類、產品名稱(英文請在 128 個字元內，要能吸引海外買家)、產品關鍵詞、產品規格、產品描述(簡潔有力)。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Has Website, Need Data Organization -->
+            <div class="prompt-card">
+                <h3>情境 2️⃣：有官網資料，需要 AI 先幫你整理</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">您有官網，想讓 AI 自動爬取並整理商品資料</p>
+                <div class="prompt-text">這是我的官網【http://www.yourbrand.com】，請你先查看我的官網內容，幫我整理出一份完整的產品資料表，以中文、英文方式呈現。
+產品資料表應包含：產品分類、產品名稱(英文請在 128 個字元內，要能吸引海外買家)、產品關鍵詞、產品規格、產品描述。
+確保數據結構清晰，便於導入阿里巴巴系統。</div>
+                <div class="remark">📌 <strong>備註：</strong>提供您的官網網址，確保網址可正常訪問。AI 會自動爬取內容進行整理</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('這是我的官網，請你先查看我的官網內容，幫我整理出一份完整的產品資料表，以中文、英文方式呈現。產品資料表應包含：產品分類、產品名稱(英文請在 128 個字元內，要能吸引海外買家)、產品關鍵詞、產品規格、產品描述。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 3: Excel Import from Supplier -->
+            <div class="prompt-card">
+                <h3>情境 3️⃣：供應商給了 Excel，需要重新編輯優化</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">供應商提供的 Excel 需要優化英文翻譯和關鍵詞提煉</p>
+                <div class="prompt-text">我從供應商那裡收到了一份 Excel 產品資料表，現在需要你幫我優化：
+1. 將產品名稱翻譯成吸引海外買家的英文版本（不超過 128 字元）
+2. 根據產品特點提煉 3-5 個核心關鍵詞
+3. 完善產品描述，突出賣點和應用場景
+4. 添加規格參數的標準表達
+請保留中文版本，並生成對應的英文版本，確保信息準確無誤。</div>
+                <div class="remark">📌 <strong>備註：</strong>請上傳供應商提供的 Excel 檔案，AI 會逐行分析並優化</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我從供應商那裡收到了一份 Excel 產品資料表，現在需要你幫我優化：1. 將產品名稱翻譯成吸引海外買家的英文版本（不超過 128 字元）；2. 根據產品特點提煉 3-5 個核心關鍵詞；3. 完善產品描述，突出賣點和應用場景；4. 添加規格參數的標準表達。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 4: Empty Shelves Need Category Building -->
+            <div class="prompt-card">
+                <h3>情境 4️⃣：店鋪剛開，需要建立產品分類和骨架</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">新開店鋪，需要 AI 幫你規劃產品分類體系</p>
+                <div class="prompt-text">我的店鋪剛開，主營【產品類型】，現在需要你根據阿里巴巴的最佳實踐，幫我規劃：
+1. 合理的產品分類結構（主分類、子分類）
+2. 每個分類下的典型產品名稱示例（中英文）
+3. 每個分類的關鍵詞建議
+4. 每個分類應突出的賣點
+這樣我可以按照這個框架逐步建立我的產品線。</div>
+                <div class="remark">📌 <strong>備註：</strong>在【產品類型】中填入您的主營業務，如「廚具」「家電」「服裝」等</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我的店鋪剛開，主營【產品類型】，現在需要你根據阿里巴巴的最佳實踐，幫我規劃產品分類結構、典型產品名稱示例、關鍵詞建議和賣點突出方向。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 5: Competitor Analysis -->
+            <div class="prompt-card">
+                <h3>情境 5️⃣：研究競品，優化自己的差異化</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">分析競爭對手的商詳頁，找到自己的差異化優勢</p>
+                <div class="prompt-text">我想研究競品的商詳頁策略。請幫我分析以下幾個競品：【競品 1 URL】【競品 2 URL】【競品 3 URL】
+分析重點：
+1. 他們如何突出產品賣點（材質、規格、功能、認證等）
+2. 商詳頁的視覺結構和內容組織方式
+3. 目標客戶的定位和語言表達
+4. 我相比他們的優勢在哪裡
+5. 我應該如何調整我的商詳頁以更具競爭力
+請給我一份對標分析報告和改進建議。</div>
+                <div class="remark">📌 <strong>備註：</strong>提供 3-5 個主要競品的阿里巴巴店鋪連結，AI 會進行深度對標分析</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我想研究競品的商詳頁策略。請幫我分析以下幾個競品的商詳頁，分析他們如何突出產品賣點、視覺結構、客戶定位和語言表達，並給出我相比他們的優勢和改進建議。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 6: SEO Keywords & Listing Optimization -->
+            <div class="prompt-card">
+                <h3>情境 6️⃣：優化 SEO 關鍵詞和商品列表頁標題</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">根據搜索習慣優化產品標題和關鍵詞</p>
+                <div class="prompt-text">我需要優化我的產品在阿里巴巴上的搜索排名。
+產品信息如下：【產品名稱】、【主要材質】、【規格型號】、【目標市場】
+請幫我：
+1. 生成 5 個不同角度的阿里巴巴列表頁標題（每個不超過 120 字符，包含核心關鍵詞）
+2. 提煉 8-10 個高效搜索關鍵詞（按搜索熱度排序）
+3. 分析這些關鍵詞的競爭程度和轉化潛力
+4. 給出優化建議
+確保標題和關鍵詞既能吸引買家，又能提升搜索曝光。</div>
+                <div class="remark">📌 <strong>備註：</strong>提供產品詳細信息，AI 會基於阿里巴巴的 SEO 規則進行優化</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我需要優化我的產品在阿里巴巴上的搜索排名。請幫我生成優化的列表頁標題、提煉高效搜索關鍵詞、分析競爭程度，並給出優化建議。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 7: Multi-language Expansion -->
+            <div class="prompt-card">
+                <h3>情境 7️⃣：需要多語言版本（擴展到其他平台）</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">將商詳頁內容翻譯並本地化到其他語言</p>
+                <div class="prompt-text">我計劃在多個國家銷售，需要將商詳頁翻譯成多語言版本。
+原始商詳頁內容：【複製您的商詳頁內容】
+目標語言：【如：西班牙語、法語、德語、日語、韓語等】
+要求：
+1. 準確的專業翻譯，保留產品的賣點表達
+2. 本地化調整（如單位換算、文化適配）
+3. 保持語氣和風格的一致性
+4. 確保翻譯後的內容仍符合目標平台（如 Amazon、eBay）的規範
+請逐語言提供完整的商詳頁版本。</div>
+                <div class="remark">📌 <strong>備註：</strong>提供原始商詳頁內容和目標語言清單，AI 會進行專業翻譯和本地化</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我計劃在多個國家銷售，需要將商詳頁翻譯成多語言版本。請進行準確的專業翻譯、本地化調整，並確保符合目標平台規範。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+
+            <!-- Scenario 8: Video Script & Marketing Copy -->
+            <div class="prompt-card">
+                <h3>情境 8️⃣：需要短視頻腳本和營銷文案</h3>
+                <p style="color: #6b7280; font-size: 13px; margin-bottom: 12px;">為您的產品生成短視頻文案和社交媒體營銷文案</p>
+                <div class="prompt-text">我需要為我的產品製作短視頻和社交媒體內容，請幫我生成：
+1. 30 秒 TikTok/YouTube Shorts 視頻腳本（中英文）
+   - 開場吸睛句（3 秒內）
+   - 產品展示亮點（15 秒）
+   - 行動號召（5 秒）
+2. Instagram 文案 3 個版本（不同風格：專業、親切、幽默）
+3. Facebook 廣告文案（針對不同客戶群體）
+4. LinkedIn 專業文案（B2B 客戶向）
+產品信息：【產品名稱、主要特色、目標客戶】
+確保文案具有感染力，能有效驅動點擊和轉化。</div>
+                <div class="remark">📌 <strong>備註：</strong>提供產品詳細信息和目標客戶特徵，AI 會生成多平台的營銷文案</div>
+                <div class="button-group" style="margin-top: 12px;">
+                    <button class="btn btn-copy" onclick="copyPrompt('我需要為我的產品製作短視頻腳本和社交媒體文案。請生成 30 秒視頻腳本、Instagram 文案、Facebook 廣告文案和 LinkedIn 文案，確保文案具有感染力。')">📋 複製 Prompt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Industry-specific dimensions data
+        const industryDimensions = {
+            apparel: {
+                name: '紡織服裝 — 常見拓品維度',
+                icon: '👕',
+                dimensions: [
+                    {
+                        title: '材質與功能性',
+                        options: ['棉', '麻', '滌綸', '竹纖維', '防水', '透氣', '抗菌']
+                    },
+                    {
+                        title: '客製化程度',
+                        options: ['空白款', '印花', '刺繡', '熱轉印', 'OEM 打版']
+                    },
+                    {
+                        title: '適用場景與季節',
+                        options: ['戶外', '運動', '居家', '正裝', '校服', '工作服']
+                    },
+                    {
+                        title: '買家類型',
+                        options: ['品牌商', '零售商', '設計師', '平台賣家', '批發商']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['小單快反', '中量批發', '大量 OEM', '無起訂量']
+                    }
+                ],
+                exampleTitles: [
+                    '有機棉空白T恤｜品牌商客製印花首選',
+                    '防曬UV功能外套｜戶外品牌批發',
+                    '小單快反棉麻寬褲｜歐洲設計師款'
+                ]
+            },
+            food: {
+                name: '食品 / 飲品 — 常見拓品維度',
+                icon: '🍔',
+                dimensions: [
+                    {
+                        title: '成分與功效',
+                        options: ['有機', '低脂', '無糖', '高蛋白', '富含纖維', '益生菌']
+                    },
+                    {
+                        title: '規格與包裝',
+                        options: ['散裝', '禮盒', '小包裝', '個性化標籤', 'OEM 代工']
+                    },
+                    {
+                        title: '應用場景',
+                        options: ['日常消費', '禮贈品', '餐飲配料', '現製飲品', '出口食品']
+                    },
+                    {
+                        title: '認證等級',
+                        options: ['HACCP', 'FDA', '有機認證', 'ISO 22000', '清真認證']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['小樣試用', '零售量', '餐飲批發', '大型代工', '無起訂']
+                    }
+                ],
+                exampleTitles: [
+                    '有機高蛋白早餐穀物｜歐美零售商分銷',
+                    '客製標籤蜂蜜｜禮盒禮贈品',
+                    '餐飲級冷凍配菜｜商業廚房代工'
+                ]
+            },
+            appliance: {
+                name: '家電 / 廚具 — 常見拓品維度',
+                icon: '⚙️',
+                dimensions: [
+                    {
+                        title: '材質與工藝',
+                        options: ['304 不銹鋼', '矽膠', '玻璃', '陶瓷', '環保塑料']
+                    },
+                    {
+                        title: '功能與配置',
+                        options: ['單功能', '多功能', '智能控制', '無線連接', '省能版']
+                    },
+                    {
+                        title: '應用場景',
+                        options: ['家庭廚房', '商業廚房', '餐飲設備', '辦公室', '戶外露營']
+                    },
+                    {
+                        title: '品質認證',
+                        options: ['CE', 'FDA', 'RoHS', 'FCC', '能源標籤']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['小單試產', '零售商量', '連鎖餐飲', '大B 客戶', '無起訂']
+                    }
+                ],
+                exampleTitles: [
+                    '304不銹鋼多功能料理機｜商業廚房設備代工',
+                    '智能無線烤盤｜歐美家電代銷商',
+                    '環保矽膠廚具套裝｜亞馬遜小單快反'
+                ]
+            },
+            beauty: {
+                name: '美妝 / 個護 — 常見拓品維度',
+                icon: '💄',
+                dimensions: [
+                    {
+                        title: '成分特性',
+                        options: ['天然', '有機', '無矽油', '無添加', '溫和配方', '高效成分']
+                    },
+                    {
+                        title: '產品形式',
+                        options: ['粉狀', '液態', '膏霜', '噴霧', '面膜', 'OEM 客製']
+                    },
+                    {
+                        title: '適用膚質',
+                        options: ['油性', '乾性', '混合', '敏感', '成熟肌', '通用']
+                    },
+                    {
+                        title: '認證體系',
+                        options: ['FDA', '歐盟認證', '無動物實驗', '清真', '素食認證']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['樣品試用', '小批零售', '品牌代工', '大客戶定制', '無起訂']
+                    }
+                ],
+                exampleTitles: [
+                    '有機植物護膚品｜美妝品牌 OEM 代工',
+                    '無矽油天然洗護套裝｜亞馬遜零售商',
+                    '敏感肌溫和面膜｜韓系美妝批發商'
+                ]
+            },
+            other: {
+                name: '其他產業 — 自定義拓品維度',
+                icon: '🏭',
+                dimensions: []
+            }
+        };
+
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${index}`).classList.add('active');
+            buttons[index].classList.add('active');
+        }
+
+        function updateIndustryDimensions() {
+            const industryType = document.getElementById('industryType').value;
+            const dimensionBox = document.getElementById('dimensionBox');
+
+            if (!industryType || !industryDimensions[industryType] || industryDimensions[industryType].dimensions.length === 0) {
+                dimensionBox.style.display = 'none';
+                return;
+            }
+
+            const industry = industryDimensions[industryType];
+            let html = `
+                <div class="dimension-box">
+                    <h4>${industry.icon} ${industry.name}</h4>
+            `;
+
+            industry.dimensions.forEach((dim, index) => {
+                html += `
+                    <div class="dimension-item">
+                        <strong>${index + 1}️⃣ ${dim.title}</strong>
+                        <div class="dimension-item-options">
+                            ${dim.options.map(opt => `<div class="dimension-option">${opt}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (industry.exampleTitles) {
+                html += `
+                    <div class="dimension-item">
+                        <strong>📌 參考標題範例</strong>
+                        <div style="margin-left: 24px;">
+                            ${industry.exampleTitles.map(title => `<div class="example-title">${title}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            dimensionBox.innerHTML = html;
+            dimensionBox.style.display = 'block';
+        }
+
+        function addField(containerId, placeholder) {
+            const container = document.getElementById(containerId);
+            const newField = document.createElement('div');
+            newField.className = 'field-item';
+            newField.innerHTML = `
+                <input type="text" placeholder="${placeholder}" class="category-input">
+                <button class="btn remove-btn" onclick="removeField(this)">移除</button>
+            `;
+            container.appendChild(newField);
+        }
+
+        function removeField(button) {
+            button.parentElement.remove();
+        }
+
+        function getCheckedLabels(className) {
+            const checkboxes = document.querySelectorAll(`.${className}`);
+            return Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.nextElementSibling.textContent || cb.value)
+                .join('、');
+        }
+
+        function generateCompanyPrompt() {
+            const companyName = document.getElementById('companyName').value;
+            const website = document.getElementById('website').value;
+            const foundingYear = document.getElementById('foundingYear').value;
+            const categories = Array.from(document.querySelectorAll('#productCategories .category-input'))
+                .map(input => input.value.trim())
+                .filter(val => val)
+                .join('、');
+            const keywords = document.getElementById('keywords').value;
+            const markets = getCheckedLabels('market-checkbox');
+            const advantages = getCheckedLabels('advantage-checkbox');
+            const certifications = document.getElementById('certifications').value;
+            const customization = document.querySelector('input[name="customization"]:checked')?.value || '';
+            const samples = document.querySelector('input[name="samples"]:checked')?.value || '';
+            const positioning = document.getElementById('positioning').value;
+            const production = document.getElementById('production').value;
+            const rd = document.getElementById('rd').value;
+            const exhibitions = document.getElementById('exhibitions').value;
+            const team = document.getElementById('team').value;
+            const moq = document.getElementById('moq').value;
+            const targetBuyer = document.getElementById('targetBuyer').value;
+
+            const prompt = `作為專業的 AI 內容顧問，請根據以下商家信息，生成一份完整的阿里巴巴店鋪介紹 Prompt：
+
+【公司基本信息】
+- 公司名稱：${companyName}
+- 官方網站：${website || '未提供'}
+- 成立年份/規模：${foundingYear || '未提供'}
+- 主營產品分類：${categories}
+- 產品關鍵詞：${keywords}
+- 目標市場：${markets}
+- 核心優勢：${advantages}
+- 質量認證：${certifications || '未提供'}
+- 定制服務：${customization || '未提供'}
+- 樣品服務：${samples || '未提供'}
+
+【定位詳情】
+- 身份定位：${positioning}
+- 生產流程說明：${production || '未提供'}
+- R&D 技術能力：${rd || '未提供'}
+- 展會經驗：${exhibitions || '未提供'}
+- 團隊介紹：${team || '未提供'}
+- 訂單靈活性/MOQ：${moq || '未提供'}
+- 目標買家描述：${targetBuyer || '未提供'}
+
+請根據上述信息，為我生成一份阿里巴巴店鋪介紹 Prompt，要求：
+1. 突出公司的核心競爭力和差異化優勢
+2. 清晰展現目標市場定位和客戶群體
+3. 強調質量控制和認證資質
+4. 突出定制化和快速響應能力
+5. 語言專業、簡潔、易於 AI 理解和執行
+6. 最後附上生成店鋪介紹文案的具體指導詞`;
+
+            const output = document.getElementById('companyPromptOutput');
+            output.classList.add('has-content');
+            document.getElementById('companyPromptText').textContent = prompt;
+        }
+
+        function generateProductPrompt() {
+            const productName = document.getElementById('productName').value;
+            const origin = document.getElementById('origin').value;
+            const brand = document.getElementById('productBrand').value;
+            const description = document.getElementById('productDescription').value;
+            const useCases = document.getElementById('useCases').value;
+            const specs = document.getElementById('specs').value;
+            const buyers = Array.from(document.querySelectorAll('.buyer-checkbox'))
+                .filter(cb => cb.checked)
+                .map(cb => cb.value)
+                .join('、');
+            const certs = document.getElementById('specialCerts').value;
+            const others = document.getElementById('otherDimensions').value;
+
+            const prompt = `作為專業的電商內容運營顧問，請根據以下商品信息，生成一份結構化的阿里巴巴商詳頁 Prompt。
+
+【商品基本信息】
+- 產品名稱：${productName}
+- 原產地：${origin || '未提供'}
+- 品牌：${brand || '未提供'}
+- 詳細描述：${description}
+
+【商品拓品維度】
+- 主要應用場景：${useCases || '未提供'}
+- 規格/功效/材質差異：${specs || '未提供'}
+- 目標客戶類型：${buyers || '未提供'}
+- 特殊認證或要求：${certs || '未提供'}
+- 其他拓品角度：${others || '未提供'}
+
+請根據上述信息，為我生成一份結構化的商詳頁 Prompt，要求：
+
+**主軸結構**（按照以下邏輯組織）：
+1. 【買方市場需求與痛點】- 深入分析目標買家面臨的真實問題（如：品質管控困難、採購渠道有限、定制周期長等）
+2. 【產品賣點與特色】- 針對買方痛點，清晰列舉產品如何解決問題（材質、規格、功能、認證等）
+3. 【商家實力展現】- 突出企業能力（生產規模、技術團隊、質控體系、交付能力）
+4. 【常見問題解答 (FAQ)】- 針對買家的關鍵疑慮（MOQ、價格、交期、定制流程等）
+
+**內容指導**：
+- 使用買家視角來撰寫，避免自嗨式描述
+- 用數據和事實支撐每一個主張（如年產能、認證資質、交付周期等）
+- 突出差異化優勢，說明為何選擇我們而非競品
+- 語言專業簡潔，中英文兼備
+
+請直接生成可供我複製到 ChatGPT/Claude 的完整 Prompt 文本。`;
+
+            const output = document.getElementById('productPromptOutput');
+            output.classList.add('has-content');
+            document.getElementById('productPromptText').textContent = prompt;
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.querySelector('pre').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ 已複製';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function copyPrompt(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ 已複製';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
