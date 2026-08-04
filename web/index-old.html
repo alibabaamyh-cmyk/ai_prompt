@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prompt 集合平台 - 為台灣商家生成營銷文案</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">🎯 AI Prompt 集合平台</h1>
+      <p class="tagline">為台灣商家快速生成國際站營銷文案</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>你是哪一種商家？</h2>
+      <p>選擇你的商家類型，我們會為你推薦最合適的 AI Prompt</p>
+    </section>
+
+    <section id="scenarios" class="scenarios-grid">
+      <!-- 場景卡片動態加載 -->
+    </section>
+
+    <section class="features">
+      <h2>核心功能</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">🏪</div>
+          <h3>旺舖定位建議</h3>
+          <p>輸入商家優勢，自動生成旺舖風格定位文案</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📝</div>
+          <h3>商品詳情頁</h3>
+          <p>根據商品特色，生成吸引買家的詳情頁文案</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🖼️</div>
+          <h3>產品主圖 Prompt</h3>
+          <p>一鍵生成符合國際站風格的產品主圖 Prompt</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3>資料結構化</h3>
+          <p>將 Excel/PDF 商品資料快速結構化整理</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-links">
+      <h2>快速開始</h2>
+      <div class="links-grid">
+        <a href="prompts.html" class="link-card">
+          <div class="link-icon">📚</div>
+          <h3>瀏覽 Prompt 庫</h3>
+          <p>查看所有可用的 Prompt，按類型和商家情境篩選</p>
+        </a>
+        <a href="docs/PROMPTS.md" target="_blank" class="link-card">
+          <div class="link-icon">📖</div>
+          <h3>使用指南</h3>
+          <p>了解如何使用各種 Prompt，以及最佳實踐</p>
+        </a>
+        <a href="docs/SIX-IMAGE-FRAMEWORK.md" target="_blank" class="link-card">
+          <div class="link-icon">🎨</div>
+          <h3>六圖框架</h3>
+          <p>學習阿里國際站商品圖片生成的完整框架</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Amy Studio 阿里巴巴專案組 | <a href="https://github.com/alibabaamyh-cmyk/ai_prompt" target="_blank">GitHub</a></p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    // 取得基礎路徑
+    const basePath = window.location.pathname.includes('/ai_prompt/') ? '/ai_prompt/' : '/';
+
+    // 加載場景
+    fetch(basePath + 'scenarios/scenarios.json')
+      .then(res => res.json())
+      .then(data => {
+        const grid = document.getElementById('scenarios');
+        data.scenarios.forEach(scenario => {
+          const card = document.createElement('div');
+          card.className = 'scenario-card';
+          card.innerHTML = `
+            <div class="scenario-icon">${scenario.icon}</div>
+            <h3>${scenario.name}</h3>
+            <p>${scenario.description}</p>
+            <button class="btn" onclick="selectScenario('${scenario.id}')">選擇此場景</button>
+          `;
+          grid.appendChild(card);
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load scenarios:', err);
+        document.getElementById('scenarios').innerHTML = '<p>加載場景失敗，請重新整理頁面</p>';
+      });
+
+    window.selectScenario = function(scenarioId) {
+      localStorage.setItem('selectedScenario', scenarioId);
+      window.location.href = basePath + `scenarios/?scenario=${scenarioId}`;
+    }
+  </script>
+</body>
+</html>

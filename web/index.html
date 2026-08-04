@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Prompt 集合平台 - 為台灣商家生成營銷文案</title>
+  <title>AI Prompt 集合平台</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,98 +15,82 @@
   </header>
 
   <main class="container">
-    <section class="hero">
-      <h2>你是哪一種商家？</h2>
-      <p>選擇你的商家類型，我們會為你推薦最合適的 AI Prompt</p>
-    </section>
+    <!-- 需要用戶輸入的 Prompt -->
+    <section class="section">
+      <h2>📋 需要輸入商家資訊的 Prompt</h2>
+      <p class="section-desc">根據你的商家或商品信息，自動生成定制化的 Prompt</p>
 
-    <section id="scenarios" class="scenarios-grid">
-      <!-- 場景卡片動態加載 -->
-    </section>
+      <div class="input-prompts-grid">
+        <!-- 旺舖定位 -->
+        <div class="input-prompt-card">
+          <div class="card-icon">🏪</div>
+          <h3>旺舖定位文案</h3>
+          <p>輸入商家優勢 → 生成旺舖介紹文案</p>
+          <button class="btn" onclick="goToInputForm('shop-positioning')">填表單並生成</button>
+        </div>
 
-    <section class="features">
-      <h2>核心功能</h2>
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon">🏪</div>
-          <h3>旺舖定位建議</h3>
-          <p>輸入商家優勢，自動生成旺舖風格定位文案</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📝</div>
-          <h3>商品詳情頁</h3>
-          <p>根據商品特色，生成吸引買家的詳情頁文案</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🖼️</div>
-          <h3>產品主圖 Prompt</h3>
-          <p>一鍵生成符合國際站風格的產品主圖 Prompt</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📊</div>
-          <h3>資料結構化</h3>
-          <p>將 Excel/PDF 商品資料快速結構化整理</p>
+        <!-- 商品詳情頁 -->
+        <div class="input-prompt-card">
+          <div class="card-icon">📝</div>
+          <h3>商品詳情頁文案</h3>
+          <p>輸入商品特色 → 生成詳情頁文案</p>
+          <button class="btn" onclick="goToInputForm('product-detail')">填表單並生成</button>
         </div>
       </div>
     </section>
 
-    <section class="quick-links">
-      <h2>快速開始</h2>
-      <div class="links-grid">
-        <a href="prompts.html" class="link-card">
-          <div class="link-icon">📚</div>
-          <h3>瀏覽 Prompt 庫</h3>
-          <p>查看所有可用的 Prompt，按類型和商家情境篩選</p>
-        </a>
-        <a href="docs/PROMPTS.md" target="_blank" class="link-card">
-          <div class="link-icon">📖</div>
-          <h3>使用指南</h3>
-          <p>了解如何使用各種 Prompt，以及最佳實踐</p>
-        </a>
-        <a href="docs/SIX-IMAGE-FRAMEWORK.md" target="_blank" class="link-card">
-          <div class="link-icon">🎨</div>
-          <h3>六圖框架</h3>
-          <p>學習阿里國際站商品圖片生成的完整框架</p>
-        </a>
+    <!-- 直接可複製的 Prompt -->
+    <section class="section">
+      <h2>🚀 直接複製的 Prompt</h2>
+      <p class="section-desc">選擇場景，點擊卡片，一鍵複製</p>
+
+      <!-- 產品主圖 Prompt -->
+      <div class="subsection">
+        <h3>🖼️ 產品主圖 Prompt（六圖框架）</h3>
+        <p class="subsection-desc">為 Midjourney / DALL-E 生成產品圖片。包含 B2B 工業品和消費品兩大框架</p>
+
+        <div class="category-tabs">
+          <button class="tab-btn active" onclick="switchImageCategory('framework')">按圖片類型</button>
+          <button class="tab-btn" onclick="switchImageCategory('industry')">按行業框架</button>
+          <button class="tab-btn" onclick="switchImageCategory('style')">按視覺風格</button>
+        </div>
+
+        <div id="image-prompts-grid" class="prompt-grid">
+          <!-- 動態加載 -->
+        </div>
+      </div>
+
+      <!-- 資料結構化 Prompt -->
+      <div class="subsection">
+        <h3>📊 資料結構化 Prompt</h3>
+        <p class="subsection-desc">幫助工廠、貿易商快速整理商品資料</p>
+
+        <div id="data-prompts-grid" class="prompt-grid">
+          <!-- 動態加載 -->
+        </div>
       </div>
     </section>
   </main>
 
+  <!-- Prompt 詳情 Modal -->
+  <div id="prompt-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h2 id="modal-title"></h2>
+      <p id="modal-desc" class="text-muted"></p>
+      <div id="modal-template" class="prompt-template"></div>
+      <div class="modal-footer">
+        <button class="btn" onclick="copyModal()">📋 複製 Prompt</button>
+        <button class="btn secondary" onclick="closeModal()">關閉</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
-    <p>&copy; 2026 Amy Studio 阿里巴巴專案組 | <a href="https://github.com/alibabaamyh-cmyk/ai_prompt" target="_blank">GitHub</a></p>
+    <p>&copy; 2026 Amy Studio 阿里巴巴專案組</p>
   </footer>
 
   <script src="js/app.js"></script>
-  <script>
-    // 取得基礎路徑
-    const basePath = window.location.pathname.includes('/ai_prompt/') ? '/ai_prompt/' : '/';
-
-    // 加載場景
-    fetch(basePath + 'scenarios/scenarios.json')
-      .then(res => res.json())
-      .then(data => {
-        const grid = document.getElementById('scenarios');
-        data.scenarios.forEach(scenario => {
-          const card = document.createElement('div');
-          card.className = 'scenario-card';
-          card.innerHTML = `
-            <div class="scenario-icon">${scenario.icon}</div>
-            <h3>${scenario.name}</h3>
-            <p>${scenario.description}</p>
-            <button class="btn" onclick="selectScenario('${scenario.id}')">選擇此場景</button>
-          `;
-          grid.appendChild(card);
-        });
-      })
-      .catch(err => {
-        console.error('Failed to load scenarios:', err);
-        document.getElementById('scenarios').innerHTML = '<p>加載場景失敗，請重新整理頁面</p>';
-      });
-
-    window.selectScenario = function(scenarioId) {
-      localStorage.setItem('selectedScenario', scenarioId);
-      window.location.href = basePath + `scenarios/?scenario=${scenarioId}`;
-    }
-  </script>
+  <script src="js/main.js"></script>
 </body>
 </html>
