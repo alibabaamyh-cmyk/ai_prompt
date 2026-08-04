@@ -1,0 +1,163 @@
+{
+  "scenarios": [
+    {
+      "id": "brand-owner",
+      "name": "品牌商家",
+      "description": "有自主品牌，需要打造高端形象",
+      "icon": "🎁",
+      "prompts": ["shop-positioning", "product-detail", "product-image"],
+      "questions": [
+        {
+          "id": "brand_name",
+          "question": "你的品牌名稱是？",
+          "type": "text",
+          "placeholder": "例：AMY Beauty"
+        },
+        {
+          "id": "brand_story",
+          "question": "品牌故事是什麼？(50字以內)",
+          "type": "textarea",
+          "placeholder": "例：專注天然護膚，致力於為消費者提供..."
+        },
+        {
+          "id": "target_market",
+          "question": "目標市場是？",
+          "type": "select",
+          "options": ["亞洲", "歐洲", "美洲", "全球"]
+        },
+        {
+          "id": "price_point",
+          "question": "產品定位",
+          "type": "select",
+          "options": ["平價", "中檔", "高檔", "超高檔"]
+        }
+      ]
+    },
+    {
+      "id": "factory-manufacturer",
+      "name": "工廠/製造商",
+      "description": "有生產能力，需要B2B銷售文案",
+      "icon": "🏭",
+      "prompts": ["shop-positioning", "product-detail", "data-structuring"],
+      "questions": [
+        {
+          "id": "company_name",
+          "question": "公司名稱",
+          "type": "text",
+          "placeholder": "例：XXX Manufacturing Co., Ltd."
+        },
+        {
+          "id": "products",
+          "question": "主要產品類別",
+          "type": "text",
+          "placeholder": "例：服飾、鞋類、配件"
+        },
+        {
+          "id": "experience",
+          "question": "工廠成立年份",
+          "type": "number",
+          "placeholder": "2010"
+        },
+        {
+          "id": "certifications",
+          "question": "擁有的認證",
+          "type": "textarea",
+          "placeholder": "例：ISO 9001, BSCI, SEDEX"
+        },
+        {
+          "id": "data_format",
+          "question": "產品資料格式",
+          "type": "select",
+          "options": ["Excel", "PDF", "CSV", "其他"]
+        }
+      ]
+    },
+    {
+      "id": "trader-agent",
+      "name": "貿易商/代理商",
+      "description": "代理多個品牌，需要快速上架",
+      "icon": "📦",
+      "prompts": ["shop-positioning", "product-detail", "product-image", "data-structuring"],
+      "questions": [
+        {
+          "id": "company_name",
+          "question": "公司名稱",
+          "type": "text",
+          "placeholder": "例：Global Trade Co."
+        },
+        {
+          "id": "brands_managed",
+          "question": "代理品牌數量",
+          "type": "number",
+          "placeholder": "5"
+        },
+        {
+          "id": "product_categories",
+          "question": "涵蓋產品類別",
+          "type": "textarea",
+          "placeholder": "例：日用品、美妝、家居用品"
+        },
+        {
+          "id": "main_challenge",
+          "question": "主要挑戰是什麼？",
+          "type": "select",
+          "options": ["商品數據太多難以整理", "文案撰寫耗時", "商品主圖風格不統一", "旺舖運營不擅長"]
+        }
+      ]
+    },
+    {
+      "id": "sme-owner",
+      "name": "中小企業主",
+      "description": "傳統生意轉線上，需要全面支持",
+      "icon": "🏪",
+      "prompts": ["shop-positioning", "product-detail", "product-image"],
+      "questions": [
+        {
+          "id": "business_type",
+          "question": "原有生意類型",
+          "type": "text",
+          "placeholder": "例：服飾批發"
+        },
+        {
+          "id": "experience_level",
+          "question": "線上銷售經驗",
+          "type": "select",
+          "options": ["完全新手", "有一些經驗", "比較熟悉"]
+        },
+        {
+          "id": "pain_points",
+          "question": "最大的痛點是？",
+          "type": "select",
+          "options": ["不知道怎麼寫文案", "不會拍照", "不懂SEO", "不知道怎麼定價"]
+        }
+      ]
+    },
+    {
+      "id": "individual-seller",
+      "name": "個人賣家",
+      "description": "小規模經營，需要輕量級工具",
+      "icon": "👤",
+      "prompts": ["shop-positioning", "product-detail", "product-image"],
+      "questions": [
+        {
+          "id": "niche",
+          "question": "你的商品定位",
+          "type": "text",
+          "placeholder": "例：手工皂、貓咪用品"
+        },
+        {
+          "id": "daily_capacity",
+          "question": "每天能處理的訂單數",
+          "type": "number",
+          "placeholder": "10"
+        },
+        {
+          "id": "unique_selling_point",
+          "question": "你的獨特優勢是？",
+          "type": "textarea",
+          "placeholder": "例：全手工製造、環保材料、獨特設計"
+        }
+      ]
+    }
+  ]
+}
