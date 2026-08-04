@@ -1,0 +1,37 @@
+{
+  "type": "product-image",
+  "title": "產品主圖 Prompt - AI 圖像生成",
+  "description": "為 Midjourney、DALL-E 等 AI 圖像工具生成的產品主圖 Prompt",
+  "prompts": [
+    {
+      "id": "apparel-image",
+      "name": "服飾類主圖",
+      "description": "生成服飾、配件類商品的主圖 Prompt",
+      "template": "商品名稱：{product_name}\n商品類型：{product_type}\n主要顏色：{main_colors}\n風格定位：{style}\n\n請生成一個產品主圖 Prompt（適用於 Midjourney/DALL-E），要求：\n\n尺寸和格式：\n- 圖片尺寸：900×900px\n- 比例：1:1\n- 背景：純白色或淡灰色（避免干擾產品主體）\n\n產品展示：\n- 產品應該居中、清晰、專業\n- 展示產品的最佳角度和細節\n- 如果是服飾，可以考慮懸掛或平鋪展示\n- 配件可以放在托盤或簡單背景上\n\n光影效果：\n- 明亮、均勻的光線（避免過度陰影）\n- 自然光感，強調產品質感\n- 可以有淡淡的陰影增加深度\n\n風格要素：\n- 現代、專業、高級感\n- 符合國際站審美\n- 突出產品質量和工藝\n\n請生成適合 Midjourney v6 或 DALL-E 3 的詳細 Prompt（150-200字），包含所有視覺要素。"
+    },
+    {
+      "id": "home-goods-image",
+      "name": "家居/日用品主圖",
+      "description": "生成家居和日用品的主圖 Prompt",
+      "template": "商品名稱：{product_name}\n商品類型：{product_type}\n主要材質：{materials}\n主要用途：{use_case}\n風格：{style}\n\n請生成一個高質量的產品主圖 Prompt：\n\n構圖要點：\n- 900×900px 正方形\n- 白色或淡色背景\n- 產品為主體，清晰居中\n- 如需要，可在產品周圍放置相關小物件增加氛圍（但不搶風頭）\n\n展示重點：\n- 突出產品的材質感和工藝\n- 展示產品的最具代表性的角度\n- 強調設計感和細節\n\n光影處理：\n- 柔和的照亮光線\n- 適度的陰影增加空間感\n- 避免過度曝光或陰暗\n\n色彩要求：\n- 與產品實際色彩接近\n- 協調、舒適的色彩搭配\n- 符合高端家居風格\n\n請根據上述要求生成 200-250 字的詳細 Prompt。"
+    },
+    {
+      "id": "beauty-skincare-image",
+      "name": "美妝/護膚品主圖",
+      "description": "生成美妝和護膚品的精美主圖 Prompt",
+      "template": "產品名稱：{product_name}\n產品類型：{product_type}\n主要成分/特色：{key_ingredients}\n目標客群：{target_audience}\n產品色系：{color_palette}\n\n請生成專業的美妝/護膚品主圖 Prompt：\n\n視覺表現：\n- 900×900px 正方形構圖\n- 淡色或白色背景（可以是柔和的奶油色）\n- 產品清晰展示，突出瓶身/包裝設計\n\n背景設計：\n- 簡潔、專業、高級\n- 可以加入相關的自然元素（花、植物等），但要淡化處理\n- 避免過於複雜\n\n光影效果：\n- 柔和的頂光，突出產品質感\n- 可以有輕微的反光增加奢華感\n- 適度的陰影增加立體感\n\n色彩搭配：\n- 產品色彩為主\n- 背景色要襯托產品\n- 整體色調溫暖、舒適、高級\n\n特殊考慮：\n- 如果產品有特色成分，可視覺化呈現（如植物、精油等）\n- 突出產品的獨特設計或功能\n- 傳達產品的高品質和科技感\n\n請生成 200-250 字的詳細 Prompt。"
+    },
+    {
+      "id": "electronics-image",
+      "name": "電子產品主圖",
+      "description": "生成電子類商品的專業主圖 Prompt",
+      "template": "產品名稱：{product_name}\n產品類型：{product_type}\n主要顏色：{main_colors}\n產品特色：{key_features}\n\n請生成電子產品的主圖 Prompt：\n\n構圖原則：\n- 900×900px\n- 中性背景（深灰、黑或白）\n- 產品居中、清晰、完整展示\n\n展示角度：\n- 選擇最能展示產品特色的角度\n- 可以從多個角度組合（如前景+側景）\n- 展示細節和工藝\n\n光影設計：\n- 專業的攝影棚光線\n- 強調產品的金屬質感或其他材質特性\n- 使用適度的反光和高光\n- 背景有適度的漸變\n\n風格要求：\n- 現代、科技感、專業\n- 高端產品感\n- 符合 3C 產品審美\n\n特殊元素：\n- 如需展示尺寸對比，可加入參考物體（如手機、硬幣）\n- 但要保持簡潔，不能喧賓奪主\n\n請生成 200-250 字的詳細 Prompt。"
+    },
+    {
+      "id": "batch-prompt-guide",
+      "name": "批量生成指南",
+      "description": "如何快速為多個產品生成主圖 Prompt",
+      "template": "產品列表：\n1. {product_1_name} - {product_1_type}\n2. {product_2_name} - {product_2_type}\n3. {product_3_name} - {product_3_type}\n...\n\n品牌風格指南：\n- 整體色系：{brand_colors}\n- 視覺風格：{visual_style}\n- 目標市場：{target_market}\n\n請幫我生成一份批量產品主圖 Prompt 模板，應該：\n\n1. 創建一個可復用的 Prompt 模板\n   - 包含所有共性要素（尺寸、背景、光線等）\n   - 為每個產品預留自定義空間\n   - 保證風格一致性\n\n2. 生成包含變數的模板格式\n   - {PRODUCT_NAME} - 產品名稱\n   - {PRODUCT_TYPE} - 產品類型\n   - {KEY_COLORS} - 主要顏色\n   - {SPECIAL_FEATURES} - 特殊特性\n   - {BACKGROUND_DESCRIPTION} - 背景描述\n\n3. 為列表中的每個產品填入具體信息\n\n4. 提供使用建議\n   - 如何在 Midjourney 中批量使用\n   - 風格調整的 tips\n   - 質量控制檢查清單\n\n請為上述產品生成完整的 Prompt 集合。"
+    }
+  ]
+}

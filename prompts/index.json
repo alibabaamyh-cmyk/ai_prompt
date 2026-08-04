@@ -1,0 +1,70 @@
+{
+  "prompts": [
+    {
+      "type": "shop-positioning",
+      "name": "旺舖定位",
+      "icon": "🏪",
+      "description": "根據商家優勢，生成旺舖定位和介紹文案",
+      "scenarios": [
+        {
+          "id": "brand-owner",
+          "name": "品牌商家",
+          "file": "shop-positioning/brand-owner.json"
+        },
+        {
+          "id": "factory-manufacturer",
+          "name": "工廠/製造商",
+          "file": "shop-positioning/factory-manufacturer.json"
+        }
+      ]
+    },
+    {
+      "type": "product-detail",
+      "name": "商品詳情頁",
+      "icon": "📝",
+      "description": "為商品生成吸引買家的詳情頁文案",
+      "scenarios": [
+        {
+          "id": "universal",
+          "name": "通用版本",
+          "file": "product-detail/universal.json"
+        }
+      ]
+    },
+    {
+      "type": "product-image",
+      "name": "產品主圖 Prompt",
+      "icon": "🖼️",
+      "description": "為 AI 圖像工具生成產品主圖 Prompt",
+      "scenarios": [
+        {
+          "id": "universal",
+          "name": "通用版本",
+          "file": "product-image/product-main-image.json"
+        }
+      ]
+    },
+    {
+      "type": "data-structuring",
+      "name": "資料結構化",
+      "icon": "📊",
+      "description": "將非結構化的商品資料轉換為標準格式",
+      "scenarios": [
+        {
+          "id": "universal",
+          "name": "通用版本",
+          "file": "data-structuring/data-structuring.json"
+        }
+      ]
+    }
+  ],
+  "statistics": {
+    "total_prompt_types": 4,
+    "total_scenarios": 7,
+    "total_individual_prompts": 26,
+    "last_updated": "2026-08-05"
+  },
+  "usage": {
+    "how_to_use": "選擇一個 prompt 類型 → 選擇適用的商家情境 → 複製對應的 Prompt 模板 → 填入商家信息 → 使用 Claude 或其他 AI 工具生成結果"
+  }
+}

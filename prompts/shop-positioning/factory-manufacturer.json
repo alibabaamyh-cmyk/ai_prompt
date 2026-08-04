@@ -1,0 +1,32 @@
+{
+  "type": "shop-positioning",
+  "scenario": "factory-manufacturer",
+  "title": "工廠/製造商 - 旺舖定位文案",
+  "description": "為生產型企業生成專業、可信的B2B旺舖文案",
+  "prompts": [
+    {
+      "id": "factory-intro",
+      "name": "工廠介紹",
+      "description": "突出生產能力、經驗和品質保證的工廠介紹",
+      "template": "公司名稱：{company_name}\n成立時間：{company_experience}\n主要產品：{products}\n生產能力：{production_capacity}\n認證資質：{certifications}\n主要客戶群：{target_market}\n\n請生成一份專業的工廠介紹（350-450字），應該包括：\n1. 公司發展歷程和現狀\n2. 生產設施和技術水平\n3. 品質管理體系\n4. 認證和榮譽\n5. 為什麼選擇我們作為供應商\n\n語氣應該專業、可信，強調製造實力和穩定供應能力。"
+    },
+    {
+      "id": "production-capability",
+      "name": "生產能力說明",
+      "description": "詳細說明工廠的生產能力和優勢",
+      "template": "我們是一家{products}生產廠家，已有{company_experience}年的生產經驗。\n\n生產設施：{production_facilities}\n年產量：{annual_capacity}\n主要客戶：{major_clients}\n認證標準：{certifications}\n\n請生成一份生產能力說明（400-500字），應該：\n1. 詳細介紹生產工藝流程\n2. 說明產能規模和交期承諾\n3. 強調品質控制措施\n4. 列舉主要客戶案例\n5. 說明可定制化服務能力\n\n格式應該清晰、有說服力，適合B2B客戶閱讀。"
+    },
+    {
+      "id": "quality-assurance",
+      "name": "品質保證承諾",
+      "description": "說明工廠的品質保證體系和承諾",
+      "template": "我們的品質保證措施：\n{quality_measures}\n\n認證體系：{certifications}\n\n不良品率：{defect_rate}\n\n售後支持：{after_sales_service}\n\n請根據上述信息，生成一份品質保證聲明（300-400字），應該：\n1. 說明完整的品質控制流程\n2. 承諾明確的品質標準\n3. 列出所有重要認證\n4. 說明售後服務和責任\n5. 建立客戶信心\n\n語氣應該專業、負責任，強調品質是首要承諾。"
+    },
+    {
+      "id": "cooperation-benefits",
+      "name": "合作優勢",
+      "description": "說明與工廠合作的主要優勢",
+      "template": "與我們{company_name}合作的優勢：\n\n價格優勢：{price_advantage}\n技術優勢：{technical_advantage}\n交期優勢：{delivery_advantage}\n服務優勢：{service_advantage}\n\n請生成一份合作優勢說明（350-400字），應該包括：\n1. 直廠優勢（免去中間環節）\n2. 成本競爭力\n3. 技術創新能力\n4. 交期和效率\n5. 定制化和柔性生產\n6. 長期合作支持\n\n語氣應該客觀、有說服力，幫助採購方做決定。"
+    }
+  ]
+}

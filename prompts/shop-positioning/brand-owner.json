@@ -1,0 +1,32 @@
+{
+  "type": "shop-positioning",
+  "scenario": "brand-owner",
+  "title": "品牌商家 - 旺舖定位文案",
+  "description": "為擁有自主品牌的商家生成高端、專業的旺舖定位文案",
+  "prompts": [
+    {
+      "id": "brand-intro",
+      "name": "品牌介紹文案",
+      "description": "生成旺舖首頁的品牌介紹，突出品牌故事和價值主張",
+      "template": "我有一個品牌叫「{brand_name}」，主要經營{main_products}。\n\n品牌故事：{brand_story}\n目標市場：{target_market}\n價格定位：{price_point}\n主要優勢：{unique_advantage}\n\n請根據上述信息，生成一段200-300字的品牌介紹文案，適合放在國際站旺舖首頁。文案應該：\n1. 突出品牌的專業性和高端定位\n2. 說明品牌的核心價值和差異化優勢\n3. 引發目標客戶的興趣和信任\n4. 使用英文和中文雙語呈現（如適用）\n5. 包含清晰的產品定位和品牌承諾"
+    },
+    {
+      "id": "shop-description",
+      "name": "店舖詳情描述",
+      "description": "生成旺舖「關於我們」部分的詳細描述",
+      "template": "品牌名稱：{brand_name}\n主營商品：{main_products}\n成立時間：{company_experience}\n品牌特色：{unique_advantage}\n認證資質：{certifications}\n目標客戶：{target_market}\n\n請生成一份詳細的店舖介紹（400-500字），應該包括：\n1. 公司簡介和發展歷程\n2. 產品特色和優勢\n3. 品質保證和認證\n4. 服務承諾\n5. 聯絡方式和售後支持\n\n語氣應該專業、親切，建立客戶信任感。"
+    },
+    {
+      "id": "product-range-intro",
+      "name": "產品系列介紹",
+      "description": "生成旺舖主要產品系列的介紹文案",
+      "template": "我的品牌{brand_name}有以下產品系列：\n{product_categories}\n\n每個系列的特點和目標客群是什麼？價格範圍是{price_point}。\n\n請為上述產品系列生成一份詳細的介紹（300-400字），說明：\n1. 各系列產品的特色和適用場景\n2. 質量標準和生產工藝\n3. 為什麼選擇這個品牌\n4. 不同系列適合的客戶類型\n\n語氣應該突出品牌的專業度和產品品質。"
+    },
+    {
+      "id": "brand-value",
+      "name": "品牌價值主張",
+      "description": "生成品牌的核心價值主張和品牌承諾",
+      "template": "品牌名稱：{brand_name}\n主營領域：{main_products}\n核心優勢：{unique_advantage}\n品牌理念：{brand_story}\n\n請根據上述信息，生成一份品牌價值主張聲明（200-250字），應該：\n1. 明確闡述品牌存在的意義\n2. 承諾提供什麼樣的價值給客戶\n3. 突出與競爭對手的區別\n4. 展示品牌的承諾和責任\n5. 鼓勵客戶信任和合作\n\n格式可以包含品牌宣言、核心價值觀等。"
+    }
+  ]
+}
