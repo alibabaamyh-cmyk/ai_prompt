@@ -1264,36 +1264,47 @@
             const moq = document.getElementById('moq').value;
             const targetBuyer = document.getElementById('targetBuyer').value;
 
-            const prompt = `作為專業的 AI 內容顧問，請根據以下商家信息，生成一份完整的阿里巴巴店鋪介紹 Prompt：
+            const prompt = `你現在是一名阿里巴巴國際站視覺研究顧問 + B2B採購行為專家。
 
-【公司基本信息】
-- 公司名稱：${companyName}
-- 官方網站：${website || '未提供'}
-- 成立年份/規模：${foundingYear || '未提供'}
-- 主營產品分類：${categories}
-- 產品關鍵詞：${keywords}
-- 目標市場：${markets}
-- 核心優勢：${advantages}
-- 質量認證：${certifications || '未提供'}
-- 定制服務：${customization || '未提供'}
-- 樣品服務：${samples || '未提供'}
+【第一步：旺舖顧問分析】
+請依據以下商家資訊，分析市場買方需求、競業狀況，以及商家的核心優勢，給予旺舖建設的具體建議。
 
-【定位詳情】
-- 身份定位：${positioning}
-- 生產流程說明：${production || '未提供'}
-- R&D 技術能力：${rd || '未提供'}
-- 展會經驗：${exhibitions || '未提供'}
-- 團隊介紹：${team || '未提供'}
-- 訂單靈活性/MOQ：${moq || '未提供'}
-- 目標買家描述：${targetBuyer || '未提供'}
+• 公司名稱：${companyName}
+${website ? '• 官網：' + website + '\n' : ''}${foundingYear ? '• 規模：' + foundingYear + '\n' : ''}• 主營產品：${categories || '未填'}
+${keywords ? '• 產品關鍵詞：' + keywords + '\n' : ''}• 目標市場：${markets || '未填'}
+• 核心優勢：${advantages || '未填'}
+• 定製服務：${customization || '未填'}　樣品服務：${samples || '未填'}
+• 身份定位：${positioning || '未填'}
+• 定位細節：
+  生產流程：${production || '未填'}
+  研發技術：${rd || '未填'}
+  品質認證：${certifications || '未填'}
+  展會：${exhibitions || '未填'}
+  團隊：${team || '未填'}
+  訂單彈性：${moq || '未填'}
+  目標買家：${targetBuyer || '未填'}
 
-請根據上述信息，為我生成一份阿里巴巴店鋪介紹 Prompt，要求：
-1. 突出公司的核心競爭力和差異化優勢
-2. 清晰展現目標市場定位和客戶群體
-3. 強調質量控制和認證資質
-4. 突出定制化和快速響應能力
-5. 語言專業、簡潔、易於 AI 理解和執行
-6. 最後附上生成店鋪介紹文案的具體指導詞`;
+【第二步：旺舖 OBS 文案生成】
+根據以上資訊與第一步分析，依序生成以下 8 個旺舖區塊。
+
+每個區塊的格式如下：
+▸ 先用【中文】說明這個區塊的撰寫角度與對買家的吸引力
+▸ 再把要貼到阿里後台的實際文案，用 \`\`\` code block 包住（英文），方便商家一鍵複製
+
+(1) About Us
+(2) Product Categories
+(3) Why Choose Us
+(4) Production Process（工廠/工貿適用，貿易商可跳過）
+(5) Certificates
+(6) Exhibitions
+(7) Our Team
+(8) Project Examples
+
+撰寫規則：
+- 中文說明部分：引導商家理解每個區塊的商業邏輯，可指出補強建議
+- 英文文案部分（code block）：針對「${markets || '目標市場'}」買家語境撰寫，專業有說服力
+- 所有英文文案基於商家提供的實際資訊；缺少的資料請在 code block 內標記 [Please fill in: ___]
+- 不提及平台身份（Gold Supplier / Verified 等）`;
 
             const output = document.getElementById('companyPromptOutput');
             output.classList.add('has-content');
