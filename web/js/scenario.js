@@ -4,6 +4,9 @@ let currentScenario = null;
 let currentPromptType = null;
 let allPrompts = {};
 
+// 取得基礎路徑
+const basePath = window.location.pathname.includes('/ai_prompt/') ? '/ai_prompt/' : '/';
+
 // 初始化
 document.addEventListener('DOMContentLoaded', async function() {
   const params = new URLSearchParams(window.location.search);
@@ -11,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const promptType = params.get('type');
 
   if (!scenarioId) {
-    window.location.href = '../index.html';
+    window.location.href = basePath;
     return;
   }
 
@@ -38,11 +41,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 // 加載場景配置
 async function loadScenarios() {
   try {
-    const response = await fetch('../scenarios/scenarios.json');
+    const response = await fetch(basePath + 'scenarios/scenarios.json');
     const data = await response.json();
     scenarios = data;
   } catch (error) {
     console.error('Failed to load scenarios:', error);
+    alert('無法加載場景配置，請重新整理頁面');
   }
 }
 
@@ -59,10 +63,10 @@ async function loadAllPrompts() {
 
     for (const type of promptTypes) {
       try {
-        const response = await fetch(`../prompts/${type}/universal.json`);
+        const response = await fetch(basePath + `prompts/${type}/universal.json`);
         if (!response.ok) {
           // 嘗試其他路徑
-          const response2 = await fetch(`../prompts/${type}/brand-owner.json`);
+          const response2 = await fetch(basePath + `prompts/${type}/brand-owner.json`);
           if (response2.ok) {
             allPrompts[type] = await response2.json();
           }

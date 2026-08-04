@@ -2,6 +2,9 @@
 
 let allPromptsData = [];
 
+// 取得基礎路徑
+const basePath = window.location.pathname.includes('/ai_prompt/') ? '/ai_prompt/' : '/';
+
 // 初始化
 document.addEventListener('DOMContentLoaded', async function() {
   await loadAllPromptsData();
@@ -12,14 +15,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 // 加載所有 Prompt 數據
 async function loadAllPromptsData() {
   try {
-    const response = await fetch('../prompts/index.json');
+    const response = await fetch(basePath + 'prompts/index.json');
     const indexData = await response.json();
 
     // 為每個 prompt 類型加載詳細數據
     for (const promptType of indexData.prompts) {
       for (const scenario of promptType.scenarios) {
         try {
-          const fileResponse = await fetch(`../prompts/${scenario.file}`);
+          const fileResponse = await fetch(basePath + `prompts/${scenario.file}`);
           if (fileResponse.ok) {
             const promptData = await fileResponse.json();
             if (promptData.prompts) {
@@ -45,6 +48,7 @@ async function loadAllPromptsData() {
     }
   } catch (error) {
     console.error('Failed to load prompts index:', error);
+    alert('無法加載 Prompt 庫，請重新整理頁面');
   }
 }
 
