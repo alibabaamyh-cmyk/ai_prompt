@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // 加載場景數據
 async function loadScenarios() {
   try {
-    const response = await fetch('../scenarios/scenarios.json');
+    const response = await fetch('scenarios/scenarios.json');
     scenarios = await response.json();
   } catch (error) {
     console.error('Failed to load scenarios:', error);
