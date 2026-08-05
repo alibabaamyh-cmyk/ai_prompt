@@ -434,6 +434,143 @@
             margin: 20px 0;
         }
 
+        .color-system-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .color-system-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .color-system-card {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .color-system-card:hover {
+            border-color: #FF6600;
+        }
+
+        .color-system-card input[type="radio"] {
+            margin: 0;
+        }
+
+        .color-system-card.selected {
+            border-color: #FF6600;
+            background: #fff5f0;
+        }
+
+        .color-system-preview {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+        }
+
+        .storefront-preview {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .preview-header {
+            padding: 16px;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            background: var(--primary-color, #1B2A4A);
+        }
+
+        .preview-content {
+            padding: 16px;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color, #1e293b);
+            margin-bottom: 8px;
+        }
+
+        .preview-text {
+            font-size: 12px;
+            color: var(--text-color, #1e293b);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .preview-button {
+            background: var(--button-color, #FF6600);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .preview-card {
+            background: var(--secondary-color, #f3f4f6);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .custom-color-inputs {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .color-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .color-input-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .color-input-group input[type="color"] {
+            width: 100%;
+            height: 36px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .color-input-group input[type="text"] {
+            padding: 6px 8px;
+            font-size: 12px;
+        }
+
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -444,6 +581,10 @@
             }
 
             .radio-card-group {
+                grid-template-columns: 2fr;
+            }
+
+            .color-system-container {
                 grid-template-columns: 1fr;
             }
 
@@ -680,17 +821,91 @@
 
             <hr class="divider">
 
-            <div class="sec-label">風格設計</div>
+            <div class="sec-label">旺舖色彩系統</div>
 
-            <div class="form-group">
-                <label>旺舖風格（選填）</label>
-                <div class="radio-card-group">
-                    <label class="radio-card"><input type="radio" name="storeStyle" value="現代簡約"> <label>現代簡約</label></label>
-                    <label class="radio-card"><input type="radio" name="storeStyle" value="專業企業"> <label>專業企業</label></label>
-                    <label class="radio-card"><input type="radio" name="storeStyle" value="工業硬核"> <label>工業硬核</label></label>
-                    <label class="radio-card"><input type="radio" name="storeStyle" value="溫馨居家"> <label>溫馨居家</label></label>
-                    <label class="radio-card"><input type="radio" name="storeStyle" value="科技未來"> <label>科技未來</label></label>
-                    <label class="radio-card"><input type="radio" name="storeStyle" value="大氣極簡"> <label>大氣極簡</label></label>
+            <div class="color-system-container">
+                <div class="color-system-options">
+                    <div class="color-system-card" onclick="selectColorSystem('modern', this)">
+                        <input type="radio" name="colorSystem" value="modern">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">現代簡約（藍）</div>
+                            <div class="color-system-preview">
+                                <div class="color-dot" style="background: #1B2A4A;"></div>
+                                <div class="color-dot" style="background: #0284c7;"></div>
+                                <div class="color-dot" style="background: #1e293b;"></div>
+                                <div class="color-dot" style="background: #FF6600;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-system-card" onclick="selectColorSystem('orange', this)">
+                        <input type="radio" name="colorSystem" value="orange">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">活力橘系</div>
+                            <div class="color-system-preview">
+                                <div class="color-dot" style="background: #FF6600;"></div>
+                                <div class="color-dot" style="background: #FFB84D;"></div>
+                                <div class="color-dot" style="background: #1e293b;"></div>
+                                <div class="color-dot" style="background: #E55A24;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-system-card" onclick="selectColorSystem('green', this)">
+                        <input type="radio" name="colorSystem" value="green">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">商務綠系</div>
+                            <div class="color-system-preview">
+                                <div class="color-dot" style="background: #10b981;"></div>
+                                <div class="color-dot" style="background: #6ee7b7;"></div>
+                                <div class="color-dot" style="background: #1e293b;"></div>
+                                <div class="color-dot" style="background: #059669;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 12px; background: #f3f4f6; border-radius: 8px; font-size: 12px; color: #475569;">
+                        💡 或自訂你的 CIS 色彩系統
+                    </div>
+
+                    <div class="custom-color-inputs">
+                        <div class="color-input-group">
+                            <label>主色調</label>
+                            <input type="color" id="customPrimary" value="#1B2A4A" onchange="updateCustomColors()">
+                            <input type="text" id="customPrimaryHex" value="#1B2A4A" onchange="updateCustomColors()" placeholder="#1B2A4A">
+                        </div>
+                        <div class="color-input-group">
+                            <label>輔色調</label>
+                            <input type="color" id="customSecondary" value="#0284c7" onchange="updateCustomColors()">
+                            <input type="text" id="customSecondaryHex" value="#0284c7" onchange="updateCustomColors()" placeholder="#0284c7">
+                        </div>
+                        <div class="color-input-group">
+                            <label>文字色</label>
+                            <input type="color" id="customText" value="#1e293b" onchange="updateCustomColors()">
+                            <input type="text" id="customTextHex" value="#1e293b" onchange="updateCustomColors()" placeholder="#1e293b">
+                        </div>
+                        <div class="color-input-group">
+                            <label>按鈕色</label>
+                            <input type="color" id="customButton" value="#FF6600" onchange="updateCustomColors()">
+                            <input type="text" id="customButtonHex" value="#FF6600" onchange="updateCustomColors()" placeholder="#FF6600">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="storefront-preview" id="storefrontPreview">
+                    <div class="preview-header">
+                        旺舖介紹
+                    </div>
+                    <div class="preview-content">
+                        <div class="preview-title">公司簡介</div>
+                        <div class="preview-text">
+                            我們是一家專注於品質和創新的企業，致力於為全球客戶提供最佳的產品和服務。
+                        </div>
+                        <div class="preview-card">
+                            <div class="preview-title" style="margin: 0; font-size: 12px;">核心優勢</div>
+                        </div>
+                        <button class="preview-button">立即詢問</button>
+                    </div>
                 </div>
             </div>
 
@@ -942,6 +1157,89 @@
     </div>
 
     <script>
+        // 色彩系統預設值
+        const colorSystems = {
+            modern: {
+                name: '現代簡約（藍）',
+                primary: '#1B2A4A',
+                secondary: '#0284c7',
+                text: '#1e293b',
+                button: '#FF6600'
+            },
+            orange: {
+                name: '活力橘系',
+                primary: '#FF6600',
+                secondary: '#FFB84D',
+                text: '#1e293b',
+                button: '#E55A24'
+            },
+            green: {
+                name: '商務綠系',
+                primary: '#10b981',
+                secondary: '#6ee7b7',
+                text: '#1e293b',
+                button: '#059669'
+            }
+        };
+
+        function selectColorSystem(systemName, cardElement) {
+            const system = colorSystems[systemName];
+            if (!system) return;
+
+            // 更新單選框
+            document.querySelector(`input[value="${systemName}"]`).checked = true;
+
+            // 更新自訂色彩輸入
+            document.getElementById('customPrimary').value = system.primary;
+            document.getElementById('customPrimaryHex').value = system.primary;
+            document.getElementById('customSecondary').value = system.secondary;
+            document.getElementById('customSecondaryHex').value = system.secondary;
+            document.getElementById('customText').value = system.text;
+            document.getElementById('customTextHex').value = system.text;
+            document.getElementById('customButton').value = system.button;
+            document.getElementById('customButtonHex').value = system.button;
+
+            // 更新卡片視覺狀態
+            document.querySelectorAll('.color-system-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            cardElement.classList.add('selected');
+
+            // 更新預覽
+            updatePreview();
+        }
+
+        function updateCustomColors() {
+            // 同步色彩輸入
+            const primary = document.getElementById('customPrimary').value;
+            document.getElementById('customPrimaryHex').value = primary;
+
+            const secondary = document.getElementById('customSecondary').value;
+            document.getElementById('customSecondaryHex').value = secondary;
+
+            const text = document.getElementById('customText').value;
+            document.getElementById('customTextHex').value = text;
+
+            const button = document.getElementById('customButton').value;
+            document.getElementById('customButtonHex').value = button;
+
+            // 更新預覽
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const primary = document.getElementById('customPrimary').value;
+            const secondary = document.getElementById('customSecondary').value;
+            const text = document.getElementById('customText').value;
+            const button = document.getElementById('customButton').value;
+
+            const preview = document.getElementById('storefrontPreview');
+            preview.style.setProperty('--primary-color', primary);
+            preview.style.setProperty('--secondary-color', secondary);
+            preview.style.setProperty('--text-color', text);
+            preview.style.setProperty('--button-color', button);
+        }
+
         function updateIdentityFields() {
             const identity = document.querySelector('input[name="identity"]:checked')?.value;
             const factoryFields = document.getElementById('factoryFields');
