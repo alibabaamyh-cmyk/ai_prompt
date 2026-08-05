@@ -1016,6 +1016,7 @@
 
             <div class="button-group">
                 <button class="btn btn-primary" onclick="generateProductPrompt()">✨ 產出商詳頁 Prompt</button>
+                <button class="btn btn-primary" onclick="generateExtensionPrompt()" style="background: #ec4899;">🚀 產出拓品 Prompt</button>
             </div>
 
             <div id="productPromptOutput" class="prompt-output">
@@ -1023,6 +1024,13 @@
                     <button class="btn btn-copy" onclick="copyToClipboard('productPromptOutput')" style="background: #10b981; padding: 8px 16px; font-size: 12px; min-width: auto;">📋 複製</button>
                 </div>
                 <pre id="productPromptText">點擊「產出商詳頁 Prompt」按鈕後，生成的內容將顯示在這裡...</pre>
+            </div>
+
+            <div id="extensionPromptOutput" class="prompt-output" style="margin-top: 24px;">
+                <div class="copy-button-absolute">
+                    <button class="btn btn-copy" onclick="copyToClipboard('extensionPromptOutput')" style="background: #ec4899; padding: 8px 16px; font-size: 12px; min-width: auto;">📋 複製</button>
+                </div>
+                <pre id="extensionPromptText">點擊「產出拓品 Prompt」按鈕後，生成的內容將顯示在這裡...</pre>
             </div>
         </div>
 
@@ -1643,6 +1651,114 @@ ${coStyle !== '未填' ? '• 旺舖風格偏好：' + coStyle + '\n' : ''}${com
 
             document.getElementById('productPromptText').textContent = prompt;
             document.getElementById('productPromptOutput').classList.add('has-content');
+        }
+
+        function generateExtensionPrompt() {
+            const productName = document.getElementById('productName').value;
+            const description = document.getElementById('productDescription').value;
+
+            if (!productName || !description) {
+                alert('請填寫「產品名稱」和「產品描述」');
+                return;
+            }
+
+            const origin = document.getElementById('origin').value;
+            const brand = document.getElementById('productBrand').value;
+            const industry = document.getElementById('industryType').value || '未指定';
+            const useCases = document.getElementById('useCases').value;
+            const specs = document.getElementById('specs').value;
+            const buyers = Array.from(document.querySelectorAll('.buyer-checkbox:checked'))
+                .map(cb => cb.value)
+                .join('、') || '未指定';
+            const certs = document.getElementById('specialCerts').value;
+            const others = document.getElementById('otherDimensions').value;
+
+            const prompt = `作為阿里國際站資深電商顧問，請基於以下商品信息，為商家延伸 20 款不同的 Listing 拓品建議。每款拓品應該針對不同的買家群體或銷售角度，確保標題、關鍵詞和主圖建議都能吸引不同類型的買家。
+
+【商品基本信息】
+- 產品名稱：${productName}
+- 產業類型：${industry}
+- 原產地：${origin || '未提供'}
+- 品牌：${brand || '未提供'}
+- 詳細描述：${description}
+
+【拓品維度參考】
+- 主要應用場景：${useCases || '未提供'}
+- 規格/功效/材質差異：${specs || '未提供'}
+- 目標客戶類型：${buyers}
+- 特殊認證或出口要求：${certs || '無'}
+- 其他拓品角度：${others || '未提供'}
+
+【核心要求】
+請為商家提供 20 款不同的拓品標題、關鍵詞和主圖建議，每款拓品應該：
+
+1. **不同買家視角** - 考慮主要買家群、潛在買家群，為每個買家群提供不同的價值主張
+2. **多角度銷售** - 強調不同的應用場景、功能、規格、品質、價格等維度
+3. **SEO 友好** - 關鍵詞應該是買家實際搜尋的詞彙，具有商業價值
+4. **視覺差異化** - 每款拓品的主圖 Prompt 應該呈現不同的商品角度或使用情景
+
+【輸出格式】
+每款拓品請按以下格式輸出：
+
+---
+**拓品 #[N]：[主要銷售角度]**
+
+**中文標題：**
+[完整的中文標題]
+
+**英文標題：**
+[英文標題 - 務必在 128 字元內，要能吸引買家和符合搜尋習慣]
+
+**中文關鍵詞：**
+[5-8 個相關的中文關鍵詞，用逗號分隔]
+
+**英文關鍵詞：**
+[5-8 個相關的英文關鍵詞，用逗號分隔]
+
+**主圖 Prompt：**
+\`\`\`
+[中文 Prompt，用於生成主圖 - 詳細描述商品在該場景下的視覺呈現，包括背景、陳設、燈光、氛圍等]
+\`\`\`
+
+**買家定位：**
+[簡短說明這款拓品主要針對哪類買家，為何這個角度會吸引他們]
+
+---
+
+【具體指導】
+
+1. **拓品角度建議**（可參考但不限於）：
+   - 按應用場景分類（工業用、家用、商用等）
+   - 按客戶類型分類（批發商、零售商、品牌商等）
+   - 按規格/材質分類（不同選項的對比突出）
+   - 按認證/品質分類（強調安全、環保、認證等）
+   - 按價值主張分類（性價比、高端、快速交付等）
+   - 按地區市場分類（不同國家的文化差異）
+
+2. **標題策略**：
+   - 中文標題：清晰、吸引、包含主要賣點
+   - 英文標題：簡潔有力，務必在 128 字元內，要包含買家會搜尋的關鍵詞
+
+3. **關鍵詞策略**：
+   - 中文關鍵詞：反映實際應用、客戶類型、特色
+   - 英文關鍵詞：國際買家的真實搜尋詞，避免過於寬泛
+
+4. **主圖 Prompt 策略**：
+   - 為每款拓品提供差異化的視覺呈現
+   - 強調該拓品針對的買家群和應用場景
+   - 包括產品擺放、背景、配置、情感氛圍等元素
+   - 確保 Prompt 可直接複製到 AI 工具（如 Claude、ChatGPT 等）生成圖片
+
+5. **多樣性原則**：
+   - 20 款拓品應該盡量避免重複，角度要有實質性差異
+   - 前期可以強調已有的應用場景和客戶群
+   - 中期可以引入潛在的新買家群和新應用
+   - 後期可以探索創意和差異化的銷售角度
+
+現在請為商家逐一生成 20 款拓品建議。`;
+
+            document.getElementById('extensionPromptText').textContent = prompt;
+            document.getElementById('extensionPromptOutput').classList.add('has-content');
         }
 
         function copyToClipboard(elementId) {
