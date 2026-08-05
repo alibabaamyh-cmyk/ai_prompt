@@ -613,7 +613,7 @@
 
         <div class="tabs">
             <button class="tab-button active" onclick="switchTab(0)">📋 旺舖定位</button>
-            <button class="tab-button" onclick="switchTab(1)">🛍️ 商品資料</button>
+            <button class="tab-button" onclick="switchTab(1)">🛍️ 商品詳情頁</button>
             <button class="tab-button" onclick="switchTab(2)">🎨 生圖 Prompt</button>
             <button class="tab-button" onclick="switchTab(3)">🏪 商家情境</button>
         </div>
@@ -957,6 +957,26 @@
             </div>
 
             <div class="section-title">拓品維度參考</div>
+            <div class="info-box">
+                💡 選擇你的產業，查看常見的拓品維度與標題範例，再到下方填入你的具體方向。填越詳細，AI 拓出的 listing 越精準。
+            </div>
+
+            <div class="form-group">
+                <label>產業類型（選填，選擇後顯示參考維度）</label>
+                <select id="industryType" onchange="updateDimensionReference()">
+                    <option value="">-- 請選擇產業 --</option>
+                    <option value="apparel">紡織服裝</option>
+                    <option value="food">食品 / 飲品</option>
+                    <option value="appliance">家電 / 廚具</option>
+                    <option value="beauty">美妝 / 個護</option>
+                    <option value="hardware">五金 / 工具</option>
+                </select>
+            </div>
+
+            <!-- 拓品維度參考區塊 -->
+            <div id="dimensionReference" style="display:none; background: #f0f7ff; border: 2px solid #FF6600; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <div id="dimensionContent"></div>
+            </div>
 
             <div class="form-group">
                 <label>主要應用場景或行業用途</label>
@@ -1157,6 +1177,166 @@
     </div>
 
     <script>
+        // 拓品維度參考數據
+        const industryDimensions = {
+            apparel: {
+                name: '紡織服裝 — 常見拓品維度',
+                icon: '👕',
+                dimensions: [
+                    {
+                        title: '材質與功能性',
+                        options: ['棉', '麻', '滌綸', '竹纖維', '防水', '透氣', '抗菌']
+                    },
+                    {
+                        title: '客製化程度',
+                        options: ['空白款', '印花', '刺繡', '熱轉印', 'OEM 打版']
+                    },
+                    {
+                        title: '適用場景與季節',
+                        options: ['戶外', '運動', '居家', '正裝', '校服', '工作服']
+                    },
+                    {
+                        title: '買家類型',
+                        options: ['品牌商', '零售商', '設計師', '平台賣家', '批發商']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['小單快反', '中量批發', '大量 OEM', '無起訂量']
+                    }
+                ]
+            },
+            food: {
+                name: '食品 / 飲品 — 常見拓品維度',
+                icon: '🍔',
+                dimensions: [
+                    {
+                        title: '成分與功效',
+                        options: ['有機', '低脂', '無糖', '高蛋白', '富含纖維', '益生菌']
+                    },
+                    {
+                        title: '規格與包裝',
+                        options: ['散裝', '禮盒', '小包裝', '個性化標籤', 'OEM 代工']
+                    },
+                    {
+                        title: '應用場景',
+                        options: ['日常消費', '禮贈品', '餐飲配料', '現製飲品', '出口食品']
+                    },
+                    {
+                        title: '認證等級',
+                        options: ['HACCP', 'FDA', '有機認證', 'ISO 22000', '清真認證']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['小樣試用', '零售量', '餐飲批發', '大型代工', '無起訂']
+                    }
+                ]
+            },
+            appliance: {
+                name: '家電 / 廚具 — 常見拓品維度',
+                icon: '⚙️',
+                dimensions: [
+                    {
+                        title: '材質與工藝',
+                        options: ['304 不銹鋼', '矽膠', '玻璃', '陶瓷', '環保塑料']
+                    },
+                    {
+                        title: '功能與配置',
+                        options: ['單功能', '多功能', '智能控制', '無線連接', '省能版']
+                    },
+                    {
+                        title: '應用場景',
+                        options: ['家庭廚房', '商業廚房', '餐飲設備', '辦公室', '戶外露營']
+                    },
+                    {
+                        title: '品質認證',
+                        options: ['CE', 'FDA', 'RoHS', 'FCC', '能源標籤']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['小單試產', '零售商量', '連鎖餐飲', '大 B 客戶', '無起訂']
+                    }
+                ]
+            },
+            beauty: {
+                name: '美妝 / 個護 — 常見拓品維度',
+                icon: '💄',
+                dimensions: [
+                    {
+                        title: '成分特性',
+                        options: ['天然', '有機', '無矽油', '無添加', '溫和配方', '高效成分']
+                    },
+                    {
+                        title: '產品形式',
+                        options: ['粉狀', '液態', '膏霜', '噴霧', '面膜', 'OEM 客製']
+                    },
+                    {
+                        title: '適用膚質',
+                        options: ['油性', '乾性', '混合', '敏感', '成熟肌', '通用']
+                    },
+                    {
+                        title: '認證體系',
+                        options: ['FDA', '歐盟認證', '無動物實驗', '清真', '素食認證']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['樣品試用', '小批零售', '品牌代工', '大客戶定制', '無起訂']
+                    }
+                ]
+            },
+            hardware: {
+                name: '五金 / 工具 — 常見拓品維度',
+                icon: '🔧',
+                dimensions: [
+                    {
+                        title: '材質等級',
+                        options: ['碳鋼', '不銹鋼', '合金鋼', '鋁合金', '鑄鐵']
+                    },
+                    {
+                        title: '應用領域',
+                        options: ['家用', '工業', '建築', '汽車', '精密儀器']
+                    },
+                    {
+                        title: '規格與尺寸',
+                        options: ['標準規格', '客製尺寸', '多尺寸組合', '工業級', '精密級']
+                    },
+                    {
+                        title: '認證與標準',
+                        options: ['ISO', 'DIN', 'JIS', 'ANSI', '工業認證']
+                    },
+                    {
+                        title: 'MOQ 梯度',
+                        options: ['零售小量', '工程批量', '代工訂製', '大宗採購', '無起訂']
+                    }
+                ]
+            }
+        };
+
+        function updateDimensionReference() {
+            const industryType = document.getElementById('industryType').value;
+            const refBox = document.getElementById('dimensionReference');
+            const content = document.getElementById('dimensionContent');
+
+            if (!industryType || !industryDimensions[industryType]) {
+                refBox.style.display = 'none';
+                return;
+            }
+
+            const industry = industryDimensions[industryType];
+            let html = `<h4 style="color: #FF6600; margin-bottom: 16px; font-size: 16px;">${industry.icon} ${industry.name}</h4>`;
+
+            industry.dimensions.forEach((dim, index) => {
+                html += `<div style="margin-bottom: 16px;">
+                    <strong style="color: #FF6600; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">${index + 1}️⃣ ${dim.title}</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-left: 24px;">
+                        ${dim.options.map(opt => `<div style="background: white; border: 1px solid #d1d5db; padding: 6px 12px; border-radius: 4px; font-size: 12px; color: #111827;">${opt}</div>`).join('')}
+                    </div>
+                </div>`;
+            });
+
+            content.innerHTML = html;
+            refBox.style.display = 'block';
+        }
+
         // 色彩系統預設值
         const colorSystems = {
             modern: {
