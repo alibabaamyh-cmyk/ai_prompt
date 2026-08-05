@@ -1223,6 +1223,12 @@
                         title: 'MOQ 梯度',
                         options: ['小批量打樣', '零售量', '服裝批發', '代工定製', '無起訂']
                     }
+                ],
+                examples: [
+                    '有機棉寬鬆T恤｜環保材質日常穿著',
+                    '修身羊毛運動外套｜防風透氣戶外登山',
+                    '商務正裝襯衫｜Oeko-Tex 認證高級面料',
+                    '兒童純棉親膚家居服｜安全無化學物質'
                 ]
             },
             food: {
@@ -1249,6 +1255,12 @@
                         title: 'MOQ 梯度',
                         options: ['小樣試用', '零售量', '餐飲批發', '大型代工', '無起訂']
                     }
+                ],
+                examples: [
+                    '有機全穀物早餐穀片｜高纖低脂健康選擇',
+                    '冷壓果汁濃縮液｜無添加天然飲品配料',
+                    '禮盒裝高蛋白堅果組合｜健身愛好者必備',
+                    'HACCP 認證乳酸菌飲品｜腸道健康新選擇'
                 ]
             },
             appliance: {
@@ -1279,6 +1291,12 @@
                         title: 'MOQ 梯度',
                         options: ['小樣測試', '零售量', '廚房用品批發', '商業代工', '無起訂']
                     }
+                ],
+                examples: [
+                    '智能快速烤麵包機｜CE 認證節能家用廚房神器',
+                    '商業級不銹鋼大容量高湯鍋｜餐飲行業首選',
+                    '便攜式露營快速加熱水壺｜戶外旅行必備',
+                    '靜音破壁料理機｜多功能家用果汁豆漿機'
                 ]
             },
             beauty: {
@@ -1309,6 +1327,12 @@
                         title: 'MOQ 梯度',
                         options: ['樣品試用', '零售量', '美妝批發', '代工定製', '無起訂']
                     }
+                ],
+                examples: [
+                    '玻尿酸保濕精華｜乾燥肌高效補水夜間修護',
+                    '有機玫瑰潤膚霜｜天然成分敏感肌首選',
+                    '無矽靈蛋白護髮精油｜頭髮深度修復亮澤感',
+                    '多效防曬隔離乳｜SPF50+ 全臉防護美妝底霜'
                 ]
             },
             hardware: {
@@ -1339,6 +1363,12 @@
                         title: 'MOQ 梯度',
                         options: ['零星採購', '小量測試', '工具批發', '大型工程代工', '無起訂']
                     }
+                ],
+                examples: [
+                    '防鏽不銹鋼精密螺絲刀套裝｜家庭 DIY 維修必備',
+                    '高速鋼鑽頭組合｜CE 認證建築工程專用',
+                    '耐磨合金鋼機械五爪扳手｜專業施工工業級',
+                    '可調節多功能電動衝擊鑽｜GS 認證家用電動工具'
                 ]
             }
         };
@@ -1359,11 +1389,18 @@
             industry.dimensions.forEach((dim, index) => {
                 html += `<div style="margin-bottom: 16px;">
                     <strong style="color: #FF6600; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">${index + 1}️⃣ ${dim.title}</strong>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-left: 24px;">
-                        ${dim.options.map(opt => `<div style="background: white; border: 1px solid #d1d5db; padding: 6px 12px; border-radius: 4px; font-size: 12px; color: #111827;">${opt}</div>`).join('')}
-                    </div>
+                    <div style="margin-left: 24px;">（${dim.options.join('／')}）</div>
                 </div>`;
             });
+
+            if (industry.examples && industry.examples.length > 0) {
+                html += `<div style="margin-top: 24px; padding-top: 16px; border-top: 2px solid #e5e7eb;">
+                    <strong style="color: #FF6600; margin-bottom: 12px; display: block;">參考拓品標題範例</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${industry.examples.map(example => `<div style="background: white; border: 1px solid #bfdbfe; padding: 8px 12px; border-radius: 4px; font-size: 12px; color: #1e40af;">${example}</div>`).join('')}
+                    </div>
+                </div>`;
+            }
 
             content.innerHTML = html;
             refBox.style.display = 'block';
