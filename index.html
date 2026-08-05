@@ -1017,13 +1017,15 @@
             </div>
 
             <div class="form-group">
-                <label>主要應用場景或行業用途</label>
-                <textarea id="useCases" placeholder="例：工業廢水處理、家用飲用水淨化、空氣清淨機過濾、餐飲業脫色..."></textarea>
+                <label>應用場景（參考上面拓品維度）</label>
+                <textarea id="useCases" placeholder="💡 先在上面選擇產業類型，查看該產業的拓品維度參考，然後複製相應的『應用場景』選項貼入這裡。例：日常消費、禮贈品、餐飲配料..."></textarea>
+                <div class="hint">參考產業拓品維度中的「應用場景」相關選項</div>
             </div>
 
             <div class="form-group">
-                <label>規格 / 功效 / 材質的差異性重點</label>
-                <textarea id="specs" placeholder="例：不同碱值（800/1000/1200）、不同粒徑（4x8目/8x30目）、木質/椰殼/煤質；或不同濃度、成分..."></textarea>
+                <label>規格 / 功效 / 材質（參考上面拓品維度）</label>
+                <textarea id="specs" placeholder="💡 先在上面選擇產業類型，查看該產業的拓品維度參考，然後複製相應的規格、材質或功效等維度的選項貼入這裡。例：不同碱值、不同粒徑、木質/椰殼/煤質..."></textarea>
+                <div class="hint">參考產業拓品維度中的「規格」、「材質」、「成分」等相關選項</div>
             </div>
 
             <div class="form-group">
@@ -1800,8 +1802,8 @@ ${coStyle !== '未填' ? '• 旺舖風格偏好：' + coStyle + '\n' : ''}${com
 - 詳細描述：${description}
 
 【商品拓品維度】
-- 主要應用場景：${useCases || '未提供'}
-- 規格/功效/材質差異：${specs || '未提供'}
+- 應用場景（來自產業拓品維度參考）：${useCases || '未提供'}
+- 規格/功效/材質（來自產業拓品維度參考）：${specs || '未提供'}
 - 目標客戶類型：${buyers || '未提供'}
 - 特殊認證或要求：${certs || '未提供'}
 - 其他拓品角度：${others || '未提供'}
@@ -1854,8 +1856,8 @@ ${coStyle !== '未填' ? '• 旺舖風格偏好：' + coStyle + '\n' : ''}${com
 - 詳細描述：${description}
 
 【拓品維度參考】
-- 主要應用場景：${useCases || '未提供'}
-- 規格/功效/材質差異：${specs || '未提供'}
+- 應用場景（來自產業拓品維度參考）：${useCases || '未提供'}
+- 規格/功效/材質（來自產業拓品維度參考）：${specs || '未提供'}
 - 目標客戶類型：${buyers}
 - 特殊認證或出口要求：${certs || '無'}
 - 其他拓品角度：${others || '未提供'}
