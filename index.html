@@ -575,10 +575,10 @@
             <div class="form-group">
                 <label>身份定位<span class="required">*</span></label>
                 <div class="radio-card-group">
-                    <label class="radio-card"><input type="radio" name="identity" value="工廠直營"> <label>工廠直營</label></label>
-                    <label class="radio-card"><input type="radio" name="identity" value="貿易商"> <label>貿易商</label></label>
-                    <label class="radio-card"><input type="radio" name="identity" value="工貿一體"> <label>工貿一體</label></label>
-                    <label class="radio-card"><input type="radio" name="identity" value="品牌商"> <label>品牌商</label></label>
+                    <label class="radio-card"><input type="radio" name="identity" value="factory" onchange="updateIdentityFields()"> <label>工廠直營</label></label>
+                    <label class="radio-card"><input type="radio" name="identity" value="trader" onchange="updateIdentityFields()"> <label>貿易商</label></label>
+                    <label class="radio-card"><input type="radio" name="identity" value="integration" onchange="updateIdentityFields()"> <label>工貿一體</label></label>
+                    <label class="radio-card"><input type="radio" name="identity" value="brand" onchange="updateIdentityFields()"> <label>品牌商</label></label>
                 </div>
             </div>
 
@@ -592,34 +592,74 @@
                 <input type="text" id="coPricingOther" class="other-input" placeholder="請填寫其它定價策略">
             </div>
 
+            <!-- 工廠直營 & 工貿一體 -->
+            <div id="factoryFields" style="display:none;">
+                <div class="form-group">
+                    <label>生產流程描述（選填）</label>
+                    <textarea id="production" placeholder="例：自有工廠 → 來料品管 → 生產製造 → QC 出貨，全程可追溯"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>產能說明（選填）</label>
+                    <input type="text" id="capacity" placeholder="例：年產能 500 萬件，日均產量 50 萬件">
+                </div>
+
+                <div class="form-group">
+                    <label>質控體系（選填）</label>
+                    <input type="text" id="qcSystem" placeholder="例：6 級質檢、來料檢驗、過程檢驗、成品檢驗、出貨抽檢">
+                </div>
+            </div>
+
+            <!-- 貿易商 & 工貿一體 -->
+            <div id="traderFields" style="display:none;">
+                <div class="form-group">
+                    <label>供應商優勢（選填）</label>
+                    <textarea id="supplierAdv" placeholder="例：與 20+ 優質工廠建立長期合作、覆蓋 10+ 細分品類、穩定的質量和交期"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>採購能力（選填）</label>
+                    <input type="text" id="purchasingPower" placeholder="例：月均採購額 500 萬美元、可快速獲得最新產品、靈活的定制方案">
+                </div>
+
+                <div class="form-group">
+                    <label>渠道覆蓋（選填）</label>
+                    <input type="text" id="channelCoverage" placeholder="例：覆蓋北美、歐洲、東南亞等 15+ 個國家和地區">
+                </div>
+            </div>
+
+            <!-- 品牌商 -->
+            <div id="brandFields" style="display:none;">
+                <div class="form-group">
+                    <label>品牌故事（選填）</label>
+                    <textarea id="brandStory" placeholder="例：品牌成立於 2015 年，致力於為年輕消費者提供高質感的生活用品..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>設計團隊（選填）</label>
+                    <input type="text" id="designTeam" placeholder="例：擁有 15 人設計團隊，多次獲得國際設計獎項">
+                </div>
+
+                <div class="form-group">
+                    <label>零售渠道經驗（選填）</label>
+                    <textarea id="retailExperience" placeholder="例：已進駐 50+ 家線下零售門店、電商平台月均銷售額 100 萬元"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>消費者認知（選填）</label>
+                    <input type="text" id="consumerAwareness" placeholder="例：品牌認知度在目標客群中達 45%、客戶復購率 60%">
+                </div>
+            </div>
+
+            <!-- 通用欄位 -->
             <div class="form-group">
-                <label>生產流程描述（選填）</label>
-                <textarea id="production" placeholder="例：自有工廠 → 來料品管 → 生產製造 → QC 出貨，全程可追溯"></textarea>
+                <label>品質認證（選填）</label>
+                <input type="text" id="companyCert" placeholder="例：ISO 9001, CE, RoHS, BSCI, UL">
             </div>
 
             <div class="form-group">
-                <label>研發技術能力（選填）</label>
-                <input type="text" id="rdTech" placeholder="例：獨立研發團隊、10年以上 OEM/ODM 經驗、獲 3 項專利">
-            </div>
-
-            <div class="form-group">
-                <label>展會經驗（選填）</label>
-                <input type="text" id="exhibitions" placeholder="例：Canton Fair、香港環球資源展、MEDICA 醫療展">
-            </div>
-
-            <div class="form-group">
-                <label>團隊介紹（選填）</label>
-                <input type="text" id="team" placeholder="例：50人專業團隊，外貿業務均有 5年以上經驗">
-            </div>
-
-            <div class="form-group">
-                <label>訂單彈性 / MOQ（選填）</label>
-                <input type="text" id="orderFlex" placeholder="例：MOQ 100pcs，支持小單快反，樣品 3-5天可出">
-            </div>
-
-            <div class="form-group">
-                <label>目標買家描述（選填）</label>
-                <input type="text" id="targetBuyers" placeholder="例：全球大品牌商、線下連鎖超市、電商平台賣家">
+                <label>交期承諾（選填）</label>
+                <input type="text" id="deliveryPromise" placeholder="例：樣品 5-7 天交期、量產訂單 15-20 天交期">
             </div>
 
             <hr class="divider">
@@ -902,6 +942,30 @@
     </div>
 
     <script>
+        function updateIdentityFields() {
+            const identity = document.querySelector('input[name="identity"]:checked')?.value;
+            const factoryFields = document.getElementById('factoryFields');
+            const traderFields = document.getElementById('traderFields');
+            const brandFields = document.getElementById('brandFields');
+
+            // 隱藏所有
+            factoryFields.style.display = 'none';
+            traderFields.style.display = 'none';
+            brandFields.style.display = 'none';
+
+            // 根據身份顯示相應欄位
+            if (identity === 'factory') {
+                factoryFields.style.display = 'block';
+            } else if (identity === 'trader') {
+                traderFields.style.display = 'block';
+            } else if (identity === 'integration') {
+                factoryFields.style.display = 'block';
+                traderFields.style.display = 'block';
+            } else if (identity === 'brand') {
+                brandFields.style.display = 'block';
+            }
+        }
+
         function switchTab(index) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
@@ -969,16 +1033,38 @@
             const coIdentity = document.querySelector('input[name="identity"]:checked')?.value || '未填';
             const coPricing = getCheckedValues('coPricing') + (document.getElementById('coPricingOther').value ? '、' + document.getElementById('coPricingOther').value : '');
             const coStyle = document.querySelector('input[name="storeStyle"]:checked')?.value || '未填';
-            const production = document.getElementById('production').value;
-            const rdTech = document.getElementById('rdTech').value;
-            const exhibitions = document.getElementById('exhibitions').value;
-            const team = document.getElementById('team').value;
-            const orderFlex = document.getElementById('orderFlex').value;
-            const targetBuyers = document.getElementById('targetBuyers').value;
             const competitorInfo = document.getElementById('competitorInfo').value;
             const competitorStrengths = document.getElementById('competitorStrengths').value;
+            const deliveryPromise = document.getElementById('deliveryPromise').value;
+            const companyCert = document.getElementById('companyCert').value;
 
             const na = "未填";
+
+            // 根據身份定位構建「定位細節」部分
+            let detailsContent = '';
+
+            if (coIdentity === 'factory' || coIdentity === 'integration') {
+                const production = document.getElementById('production').value;
+                const capacity = document.getElementById('capacity').value;
+                const qcSystem = document.getElementById('qcSystem').value;
+                detailsContent += `生產流程：${production || na}\n  產能：${capacity || na}\n  質控體系：${qcSystem || na}\n`;
+            }
+
+            if (coIdentity === 'trader' || coIdentity === 'integration') {
+                const supplierAdv = document.getElementById('supplierAdv').value;
+                const purchasingPower = document.getElementById('purchasingPower').value;
+                const channelCoverage = document.getElementById('channelCoverage').value;
+                detailsContent += `供應商優勢：${supplierAdv || na}\n  採購能力：${purchasingPower || na}\n  渠道覆蓋：${channelCoverage || na}\n`;
+            }
+
+            if (coIdentity === 'brand') {
+                const brandStory = document.getElementById('brandStory').value;
+                const designTeam = document.getElementById('designTeam').value;
+                const retailExperience = document.getElementById('retailExperience').value;
+                const consumerAwareness = document.getElementById('consumerAwareness').value;
+                detailsContent += `品牌故事：${brandStory || na}\n  設計團隊：${designTeam || na}\n  零售渠道經驗：${retailExperience || na}\n  消費者認知：${consumerAwareness || na}\n`;
+            }
+
             const prompt = `你現在是一名阿里巴巴國際站視覺研究顧問 + B2B採購行為專家。
 
 【第一步：旺舖顧問分析】
@@ -991,13 +1077,8 @@ ${coKeywords ? '• 產品關鍵詞：' + coKeywords + '\n' : ''}• 目標市�
 • 定製服務：${coCustom}　樣品服務：${coSample}
 • 身份定位：${coIdentity}
 • 定位細節：
-  生產流程：${production || na}
-  研發技術：${rdTech || na}
-  品質認證：${coCert || na}
-  展會：${exhibitions || na}
-  團隊：${team || na}
-  訂單彈性：${orderFlex || na}
-  目標買家：${targetBuyers || na}
+  ${detailsContent}品質認證：${companyCert || na}
+  交期承諾：${deliveryPromise || na}
 • 定價策略：${coPricing || na}
 ${coStyle !== '未填' ? '• 旺舖風格偏好：' + coStyle + '\n' : ''}${competitorInfo ? '• 競業標竿商家：' + competitorInfo + '\n' : ''}${competitorStrengths ? '• 競業優勢參考：' + competitorStrengths + '\n' : ''}
 【第二步：旺舖 OBS 文案生成】
